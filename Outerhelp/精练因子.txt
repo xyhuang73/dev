@@ -1,0 +1,20 @@
+Alpha_ETF =
+      ( signedpower( exp(250 * slope) - 1 , 1 )           # 年化对数斜率收益 R_ann
+        * power( rho , 2 ) )                              # × 加权拟合优度 R²  →  核心动量分 F
+                                                          # ---- 以下为 0/1 否决门，逐项相乘 ----
+    * ( F > 0 )                                           # 得分区间  0 < F < 100
+    * ( delta(close, 10) >= 0 )                           # 10 日短动量 ≥ 0
+    * ( ts_min( close / delay(close,1) , 3 ) >= 0.97 )    # 近 3 日无单日跌幅 > 3%
+    * ( close > 0.95 * ts_max(high, 2) )                  # 盈利保护：未较近高回撤 5%
+    * ( (close - nav) / nav <= 0.20 )                     # 溢价率 ≤ 20%
+    * ( 1 - (adv_proj / adv(5) > 3.72) * (R_ann > 1) )    # 放量+高斜率 同时成立则剔除
+    * ( 1 - is_ashare * regime_weak )                     # 走弱期回避 A 股（域切换）
+
+where
+    lr        = log(close)
+    rho       = correlation( decay_linear(lr, 25), t, 25 )         # t = 窗口内日序 0..N，近端加权
+    slope     = rho * stddev(decay_linear(lr,25), 25) / stddev(t, 25)
+    R_ann     = exp(250 * slope) - 1
+    adv_proj  = volume * (240 / minutes_elapsed)                   # 当日成交量线性外推
+    regime_weak = ( sum_{k∈{HS300,深证综指,创业板指,中证A500}}
+                      ( close_k < sma(close_k, 10) ) >= 3 )         # 四宽基多数表决破 10 日线

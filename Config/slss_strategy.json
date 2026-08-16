@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "stratified_long_short_sharpe_objective_en": "StratifiedLongShortSharpe",
+  "bundle_factor_ids": [
+    "F000001",
+    "F000160",
+    "F000141",
+    "F000143",
+    "F000142",
+    "F000161",
+    "F000005",
+    "F000144",
+    "F000010",
+    "F000148"
+  ],
+  "equal_weight": true,
+  "explicit_weights": null,
+  "decision_mode": "cross_section_rank",
+  "cross_section_long_top_n": 3,
+  "cross_section_short_min_rank": 21,
+  "cross_section_long_require_close_positive": true,
+  "cross_section_long_require_composite_positive": true,
+  "cross_section_short_bottom_n": 20,
+  "cross_section_short_or_negative_composite": true,
+  "a_share_cash_stock_rules": true,
+  "buy_threshold": 1.5,
+  "sell_threshold": 0.0,
+  "fixed_lot": 100,
+  "alpha_prepare_workers": 1,
+  "trade_simulation": {
+    "rolling_window": 20,
+    "rolling_min_periods": 10,
+    "fallback_buy_z": 1.0,
+    "fallback_sell_z": -0.5,
+    "enable_rolling_z_fallback": true
+  }
+}

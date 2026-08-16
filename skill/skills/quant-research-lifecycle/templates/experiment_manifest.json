@@ -1,0 +1,48 @@
+{
+  "experiment_id": "YYYYMMDD_strategy_slug_v001",
+  "hypothesis": {
+    "summary": "State the market mechanism being tested.",
+    "asset_universe": ["SPY"],
+    "decision_time": "close_t",
+    "execution_time": "next_open_or_next_bar"
+  },
+  "data": {
+    "snapshot_id": "vendor_or_hash",
+    "path": "data/feature_store",
+    "pit_policy": "available_time <= decision_time",
+    "calendar": "NYSE"
+  },
+  "code": {
+    "repo": "local_or_remote_repo",
+    "commit": "git_commit_hash",
+    "entrypoints": {
+      "prepare_data": "python scripts/prepare_data.py",
+      "train": "python scripts/train.py",
+      "backtest": "python scripts/backtest.py",
+      "report": "python scripts/report.py"
+    }
+  },
+  "config": {
+    "path": "configs/experiment.json",
+    "random_seed": 42,
+    "train_window": "YYYY-MM-DD..YYYY-MM-DD",
+    "test_window": "YYYY-MM-DD..YYYY-MM-DD"
+  },
+  "backtest": {
+    "fee_model": "bps_or_exchange_fee",
+    "slippage_model": "bps_or_volume_participation",
+    "fill_rule": "next_bar",
+    "leverage_limit": 1.0
+  },
+  "results": {
+    "metrics_path": "results/metrics.json",
+    "orders_path": "results/orders.csv",
+    "positions_path": "results/positions.csv",
+    "report_path": "results/report.md"
+  },
+  "promotion_gate": {
+    "stage": "candidate",
+    "verdict": "WARN",
+    "blocking_gaps": ["Replace with concrete missing evidence."]
+  }
+}

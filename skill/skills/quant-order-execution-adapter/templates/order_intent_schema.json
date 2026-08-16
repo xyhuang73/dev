@@ -1,0 +1,19 @@
+{
+  "client_order_id": "strategy-portfolio-symbol-side-timestamp-seq",
+  "strategy_id": "strategy_slug",
+  "portfolio_id": "portfolio_slug",
+  "created_at": "2026-01-01T00:00:00Z",
+  "symbol": "SPY",
+  "side": "buy_or_sell",
+  "quantity": 100,
+  "order_type": "market_or_limit_or_stop",
+  "limit_price": null,
+  "time_in_force": "day_or_gtc_or_ioc",
+  "reason": "target_position_delta",
+  "risk_context": {
+    "target_position": 100,
+    "current_position": 0,
+    "max_position": 500,
+    "max_order_notional": 100000
+  }
+}

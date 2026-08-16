@@ -1,0 +1,12 @@
+# 6.11.x 在部分 Windows 环境会出现 QtCore DLL 加载失败，项目 venv 锁定 6.6.3
+PySide6==6.6.3
+openpyxl>=3.1.0
+# NumPy 2.x 会触发「用 1.x 编译的扩展」不兼容；多数环境可先锁在 1.x（见终端 numpy 迁移提示）
+numpy>=1.24.0,<2
+# 锁在 3 以下可避免与 streamlit 等「要求 pandas<3」的包在同一解释器里冲突（仍建议每项目独立 .venv）
+pandas>=2.0.0,<3
+polars>=0.20.0
+scipy>=1.10.0
+tqdm>=4.65.0
+# BackTest 子窗体 widget_K_plot 嵌入式 K 线与买卖标记绘图
+matplotlib>=3.7.0

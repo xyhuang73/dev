@@ -1,0 +1,1019 @@
+{
+  "updated_at": "2026-04-22T03:39:19",
+  "factors": {
+    "F000001": {
+      "selection_feasible": true,
+      "selection_objective": 4.603588568685239,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000002": {
+      "selection_feasible": true,
+      "selection_objective": -1.3362888204716759,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000003": {
+      "selection_feasible": true,
+      "selection_objective": 4.422949279723117,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000004": {
+      "selection_feasible": true,
+      "selection_objective": 3.6688681938464507,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000005": {
+      "selection_feasible": true,
+      "selection_objective": 5.166742895897661,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000006": {
+      "selection_feasible": true,
+      "selection_objective": 0.8977163832952393,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000007": {
+      "selection_feasible": true,
+      "selection_objective": -1.6975997151149724,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000008": {
+      "selection_feasible": true,
+      "selection_objective": -1.1473342454568467,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000009": {
+      "selection_feasible": true,
+      "selection_objective": 0.8004667020979186,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000010": {
+      "selection_feasible": true,
+      "selection_objective": 4.800041538423813,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000011": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.012714 < 下限 0.000000；IC_IR -0.086518 < 下限 0.000000",
+      "error": ""
+    },
+    "F000012": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.016207 < 下限 0.000000；IC_IR -0.099422 < 下限 0.000000",
+      "error": ""
+    },
+    "F000013": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.065043 < 下限 0.000000；IC_IR -0.352357 < 下限 0.000000",
+      "error": ""
+    },
+    "F000014": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.012675 < 下限 0.000000；IC_IR -0.086288 < 下限 0.000000",
+      "error": ""
+    },
+    "F000015": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.047208 < 下限 0.000000；IC_IR -0.391777 < 下限 0.000000",
+      "error": ""
+    },
+    "F000016": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.016132 < 下限 0.000000；IC_IR -0.153760 < 下限 0.000000",
+      "error": ""
+    },
+    "F000017": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.037746 < 下限 0.000000；IC_IR -0.305004 < 下限 0.000000",
+      "error": ""
+    },
+    "F000018": {
+      "selection_feasible": true,
+      "selection_objective": -1.0594168806999205,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000019": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.006881 < 下限 0.000000；IC_IR -0.042733 < 下限 0.000000",
+      "error": ""
+    },
+    "F000020": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.004643 < 下限 0.000000；IC_IR -0.034084 < 下限 0.000000",
+      "error": ""
+    },
+    "F000021": {
+      "selection_feasible": true,
+      "selection_objective": -1.6975997151149724,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000022": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.043286 < 下限 0.000000；IC_IR -0.252731 < 下限 0.000000",
+      "error": ""
+    },
+    "F000023": {
+      "selection_feasible": true,
+      "selection_objective": 0.440765951412857,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000024": {
+      "selection_feasible": true,
+      "selection_objective": -2.2839413825073476,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000025": {
+      "selection_feasible": true,
+      "selection_objective": -0.7403782875493253,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000026": {
+      "selection_feasible": true,
+      "selection_objective": 0.49880302415881567,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000027": {
+      "selection_feasible": true,
+      "selection_objective": 1.2121184990197633,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000028": {
+      "selection_feasible": true,
+      "selection_objective": 1.693205692501283,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000029": {
+      "selection_feasible": true,
+      "selection_objective": 0.8180054145854644,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000030": {
+      "selection_feasible": true,
+      "selection_objective": -2.445089277244816,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000031": {
+      "selection_feasible": true,
+      "selection_objective": -0.7480944366642233,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000032": {
+      "selection_feasible": true,
+      "selection_objective": 0.1780042546502394,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000033": {
+      "selection_feasible": true,
+      "selection_objective": 0.684214873267634,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000034": {
+      "selection_feasible": true,
+      "selection_objective": 0.9372243601767525,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000035": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.047103 < 下限 0.000000；IC_IR -0.252242 < 下限 0.000000",
+      "error": ""
+    },
+    "F000036": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.046713 < 下限 0.000000；IC_IR -0.231109 < 下限 0.000000",
+      "error": ""
+    },
+    "F000037": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.036858 < 下限 0.000000；IC_IR -0.173953 < 下限 0.000000",
+      "error": ""
+    },
+    "F000038": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.029577 < 下限 0.000000；IC_IR -0.132654 < 下限 0.000000",
+      "error": ""
+    },
+    "F000039": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.024622 < 下限 0.000000；IC_IR -0.105451 < 下限 0.000000",
+      "error": ""
+    },
+    "F000040": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.022103 < 下限 0.000000；IC_IR -0.122349 < 下限 0.000000",
+      "error": ""
+    },
+    "F000041": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.035693 < 下限 0.000000；IC_IR -0.199320 < 下限 0.000000",
+      "error": ""
+    },
+    "F000042": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.038049 < 下限 0.000000；IC_IR -0.214757 < 下限 0.000000",
+      "error": ""
+    },
+    "F000043": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.044302 < 下限 0.000000；IC_IR -0.250774 < 下限 0.000000",
+      "error": ""
+    },
+    "F000044": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.024165 < 下限 0.000000；IC_IR -0.140643 < 下限 0.000000",
+      "error": ""
+    },
+    "F000045": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.004853 < 下限 0.000000；IC_IR -0.040987 < 下限 0.000000",
+      "error": ""
+    },
+    "F000046": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.010081 < 下限 0.000000；IC_IR -0.082241 < 下限 0.000000",
+      "error": ""
+    },
+    "F000047": {
+      "selection_feasible": true,
+      "selection_objective": -0.08651099949135208,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000048": {
+      "selection_feasible": true,
+      "selection_objective": 0.292143316587493,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000049": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.004763 < 下限 0.000000；IC_IR -0.047398 < 下限 0.000000",
+      "error": ""
+    },
+    "F000050": {
+      "selection_feasible": true,
+      "selection_objective": 4.3857835876105185,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000051": {
+      "selection_feasible": true,
+      "selection_objective": 4.3008586650934575,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000052": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.012318 < 下限 0.000000；IC_IR -0.071306 < 下限 0.000000",
+      "error": ""
+    },
+    "F000053": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.018508 < 下限 0.000000；IC_IR -0.106931 < 下限 0.000000",
+      "error": ""
+    },
+    "F000054": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.038336 < 下限 0.000000；IC_IR -0.241103 < 下限 0.000000",
+      "error": ""
+    },
+    "F000055": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.035321 < 下限 0.000000；IC_IR -0.187928 < 下限 0.000000",
+      "error": ""
+    },
+    "F000056": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.021604 < 下限 0.000000；IC_IR -0.109606 < 下限 0.000000",
+      "error": ""
+    },
+    "F000057": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.009528 < 下限 0.000000；IC_IR -0.047163 < 下限 0.000000",
+      "error": ""
+    },
+    "F000058": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.002430 < 下限 0.000000；IC_IR -0.011703 < 下限 0.000000",
+      "error": ""
+    },
+    "F000059": {
+      "selection_feasible": true,
+      "selection_objective": -1.0575495082889206,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000060": {
+      "selection_feasible": true,
+      "selection_objective": -1.4547648968024254,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000061": {
+      "selection_feasible": true,
+      "selection_objective": -0.772601883851429,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000062": {
+      "selection_feasible": true,
+      "selection_objective": -0.4408204218522569,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000063": {
+      "selection_feasible": true,
+      "selection_objective": -0.3654789787361216,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000064": {
+      "selection_feasible": true,
+      "selection_objective": -0.20680632456324227,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000065": {
+      "selection_feasible": true,
+      "selection_objective": -2.892189656608856,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000066": {
+      "selection_feasible": true,
+      "selection_objective": -1.4525863089061588,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000067": {
+      "selection_feasible": true,
+      "selection_objective": -0.05543202074590024,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000068": {
+      "selection_feasible": true,
+      "selection_objective": 1.1290777066103435,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000069": {
+      "selection_feasible": true,
+      "selection_objective": 0.9308537817678353,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000070": {
+      "selection_feasible": true,
+      "selection_objective": -1.833001535417177,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000071": {
+      "selection_feasible": true,
+      "selection_objective": -0.525195292666106,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000072": {
+      "selection_feasible": true,
+      "selection_objective": 0.30165263153296523,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000073": {
+      "selection_feasible": true,
+      "selection_objective": 1.105103969291991,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000074": {
+      "selection_feasible": true,
+      "selection_objective": 1.0285036407158352,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000075": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.021713 < 下限 0.000000；IC_IR -0.168446 < 下限 0.000000",
+      "error": ""
+    },
+    "F000076": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.030006 < 下限 0.000000；IC_IR -0.205750 < 下限 0.000000",
+      "error": ""
+    },
+    "F000077": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.040798 < 下限 0.000000；IC_IR -0.268171 < 下限 0.000000",
+      "error": ""
+    },
+    "F000078": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.044760 < 下限 0.000000；IC_IR -0.306297 < 下限 0.000000",
+      "error": ""
+    },
+    "F000079": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.039458 < 下限 0.000000；IC_IR -0.274445 < 下限 0.000000",
+      "error": ""
+    },
+    "F000080": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.005410 < 下限 0.000000；IC_IR -0.034589 < 下限 0.000000",
+      "error": ""
+    },
+    "F000081": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.015560 < 下限 0.000000；IC_IR -0.096544 < 下限 0.000000",
+      "error": ""
+    },
+    "F000082": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.023028 < 下限 0.000000；IC_IR -0.140992 < 下限 0.000000",
+      "error": ""
+    },
+    "F000083": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.027633 < 下限 0.000000；IC_IR -0.164344 < 下限 0.000000",
+      "error": ""
+    },
+    "F000084": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.029889 < 下限 0.000000；IC_IR -0.174373 < 下限 0.000000",
+      "error": ""
+    },
+    "F000085": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.021662 < 下限 0.000000；IC_IR -0.195537 < 下限 0.000000",
+      "error": ""
+    },
+    "F000086": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.027765 < 下限 0.000000；IC_IR -0.244289 < 下限 0.000000",
+      "error": ""
+    },
+    "F000087": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.035216 < 下限 0.000000；IC_IR -0.308067 < 下限 0.000000",
+      "error": ""
+    },
+    "F000088": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.033474 < 下限 0.000000；IC_IR -0.283349 < 下限 0.000000",
+      "error": ""
+    },
+    "F000089": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.024255 < 下限 0.000000；IC_IR -0.188508 < 下限 0.000000",
+      "error": ""
+    },
+    "F000090": {
+      "selection_feasible": true,
+      "selection_objective": 0.5880348547899337,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000091": {
+      "selection_feasible": true,
+      "selection_objective": 0.9772508307740723,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000092": {
+      "selection_feasible": true,
+      "selection_objective": 0.9884622388906918,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000093": {
+      "selection_feasible": true,
+      "selection_objective": 1.2924305239897464,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000094": {
+      "selection_feasible": true,
+      "selection_objective": -0.44945804841900305,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000095": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.021906 < 下限 0.000000；IC_IR -0.169702 < 下限 0.000000",
+      "error": ""
+    },
+    "F000096": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.026718 < 下限 0.000000；IC_IR -0.201505 < 下限 0.000000",
+      "error": ""
+    },
+    "F000097": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.034510 < 下限 0.000000；IC_IR -0.260285 < 下限 0.000000",
+      "error": ""
+    },
+    "F000098": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.035964 < 下限 0.000000；IC_IR -0.274539 < 下限 0.000000",
+      "error": ""
+    },
+    "F000099": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.022272 < 下限 0.000000；IC_IR -0.163051 < 下限 0.000000",
+      "error": ""
+    },
+    "F000100": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.041264 < 下限 0.000000；IC_IR -0.431577 < 下限 0.000000",
+      "error": ""
+    },
+    "F000101": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.048286 < 下限 0.000000；IC_IR -0.480792 < 下限 0.000000",
+      "error": ""
+    },
+    "F000102": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.041997 < 下限 0.000000；IC_IR -0.408786 < 下限 0.000000",
+      "error": ""
+    },
+    "F000103": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.033177 < 下限 0.000000；IC_IR -0.321017 < 下限 0.000000",
+      "error": ""
+    },
+    "F000104": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.022588 < 下限 0.000000；IC_IR -0.212551 < 下限 0.000000",
+      "error": ""
+    },
+    "F000105": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.036052 < 下限 0.000000；IC_IR -0.383614 < 下限 0.000000",
+      "error": ""
+    },
+    "F000106": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.040446 < 下限 0.000000；IC_IR -0.405970 < 下限 0.000000",
+      "error": ""
+    },
+    "F000107": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.037975 < 下限 0.000000；IC_IR -0.393203 < 下限 0.000000",
+      "error": ""
+    },
+    "F000108": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.033165 < 下限 0.000000；IC_IR -0.346731 < 下限 0.000000",
+      "error": ""
+    },
+    "F000109": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.027261 < 下限 0.000000；IC_IR -0.272767 < 下限 0.000000",
+      "error": ""
+    },
+    "F000110": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.000307 < 下限 0.000000；IC_IR -0.004975 < 下限 0.000000",
+      "error": ""
+    },
+    "F000111": {
+      "selection_feasible": true,
+      "selection_objective": 0.36585554535579035,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000112": {
+      "selection_feasible": true,
+      "selection_objective": 0.2142016502319275,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000113": {
+      "selection_feasible": true,
+      "selection_objective": 0.20980015445752623,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000114": {
+      "selection_feasible": true,
+      "selection_objective": 0.20980015445752623,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000115": {
+      "selection_feasible": true,
+      "selection_objective": 0.10927263542283006,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000116": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.001291 < 下限 0.000000；IC_IR -0.023350 < 下限 0.000000",
+      "error": ""
+    },
+    "F000117": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.001236 < 下限 0.000000；IC_IR -0.022382 < 下限 0.000000",
+      "error": ""
+    },
+    "F000118": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.001227 < 下限 0.000000；IC_IR -0.022232 < 下限 0.000000",
+      "error": ""
+    },
+    "F000119": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.001227 < 下限 0.000000；IC_IR -0.022234 < 下限 0.000000",
+      "error": ""
+    },
+    "F000120": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.000149 < 下限 0.000000；IC_IR -0.002177 < 下限 0.000000",
+      "error": ""
+    },
+    "F000121": {
+      "selection_feasible": true,
+      "selection_objective": 0.4937487116752695,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000122": {
+      "selection_feasible": true,
+      "selection_objective": 0.33265698186725734,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000123": {
+      "selection_feasible": true,
+      "selection_objective": 0.32355449863495817,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000124": {
+      "selection_feasible": true,
+      "selection_objective": 0.3224907126588524,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000125": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.028448 < 下限 0.000000；IC_IR -0.175579 < 下限 0.000000",
+      "error": ""
+    },
+    "F000126": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.035985 < 下限 0.000000；IC_IR -0.224601 < 下限 0.000000",
+      "error": ""
+    },
+    "F000127": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.044347 < 下限 0.000000；IC_IR -0.271651 < 下限 0.000000",
+      "error": ""
+    },
+    "F000128": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.043337 < 下限 0.000000；IC_IR -0.279081 < 下限 0.000000",
+      "error": ""
+    },
+    "F000129": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.031850 < 下限 0.000000；IC_IR -0.203537 < 下限 0.000000",
+      "error": ""
+    },
+    "F000130": {
+      "selection_feasible": true,
+      "selection_objective": 0.08945542112113815,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000131": {
+      "selection_feasible": true,
+      "selection_objective": 0.3567413341717815,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000132": {
+      "selection_feasible": true,
+      "selection_objective": 0.9325829357273866,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000133": {
+      "selection_feasible": true,
+      "selection_objective": 1.341885934900535,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000134": {
+      "selection_feasible": true,
+      "selection_objective": 0.6285776354788417,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000135": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.027959 < 下限 0.000000；IC_IR -0.171339 < 下限 0.000000",
+      "error": ""
+    },
+    "F000136": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.035980 < 下限 0.000000；IC_IR -0.224547 < 下限 0.000000",
+      "error": ""
+    },
+    "F000137": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.044346 < 下限 0.000000；IC_IR -0.271638 < 下限 0.000000",
+      "error": ""
+    },
+    "F000138": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.043336 < 下限 0.000000；IC_IR -0.279068 < 下限 0.000000",
+      "error": ""
+    },
+    "F000139": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.031849 < 下限 0.000000；IC_IR -0.203535 < 下限 0.000000",
+      "error": ""
+    },
+    "F000140": {
+      "selection_feasible": true,
+      "selection_objective": 2.752048130344319,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000141": {
+      "selection_feasible": true,
+      "selection_objective": 3.1524097554699497,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000142": {
+      "selection_feasible": true,
+      "selection_objective": 3.6654092357396566,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000143": {
+      "selection_feasible": true,
+      "selection_objective": 3.9877733123756984,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000144": {
+      "selection_feasible": true,
+      "selection_objective": 4.05786009404658,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000145": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.013505 < 下限 0.000000；IC_IR -0.190785 < 下限 0.000000",
+      "error": ""
+    },
+    "F000146": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.000344 < 下限 0.000000；IC_IR -0.004069 < 下限 0.000000",
+      "error": ""
+    },
+    "F000147": {
+      "selection_feasible": true,
+      "selection_objective": 1.9986757174949936,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000148": {
+      "selection_feasible": true,
+      "selection_objective": 2.990311066312801,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000149": {
+      "selection_feasible": true,
+      "selection_objective": 3.5081011732578267,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000150": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.009199 < 下限 0.000000；IC_IR -0.135258 < 下限 0.000000",
+      "error": ""
+    },
+    "F000151": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.012185 < 下限 0.000000；IC_IR -0.168203 < 下限 0.000000",
+      "error": ""
+    },
+    "F000152": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.013947 < 下限 0.000000；IC_IR -0.212843 < 下限 0.000000",
+      "error": ""
+    },
+    "F000153": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.010479 < 下限 0.000000；IC_IR -0.160946 < 下限 0.000000",
+      "error": ""
+    },
+    "F000154": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.002879 < 下限 0.000000；IC_IR -0.043650 < 下限 0.000000",
+      "error": ""
+    },
+    "F000155": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.033343 < 下限 0.000000；IC_IR -0.348737 < 下限 0.000000",
+      "error": ""
+    },
+    "F000156": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.040611 < 下限 0.000000；IC_IR -0.409357 < 下限 0.000000",
+      "error": ""
+    },
+    "F000157": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.051543 < 下限 0.000000；IC_IR -0.502574 < 下限 0.000000",
+      "error": ""
+    },
+    "F000158": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.052395 < 下限 0.000000；IC_IR -0.504107 < 下限 0.000000",
+      "error": ""
+    },
+    "F000159": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.050117 < 下限 0.000000；IC_IR -0.486083 < 下限 0.000000",
+      "error": ""
+    },
+    "F000160": {
+      "selection_feasible": true,
+      "selection_objective": 2.8871850754676833,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000161": {
+      "selection_feasible": true,
+      "selection_objective": 3.1728628073735696,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000162": {
+      "selection_feasible": true,
+      "selection_objective": 4.307392155207389,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000163": {
+      "selection_feasible": true,
+      "selection_objective": 4.430485534910886,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000164": {
+      "selection_feasible": true,
+      "selection_objective": 4.301256632950355,
+      "selection_reason": "已满足 IC 门槛（RankIC 与 IC_IR），主目标=分层多空年化夏普",
+      "error": ""
+    },
+    "F000165": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.033340 < 下限 0.000000；IC_IR -0.348715 < 下限 0.000000",
+      "error": ""
+    },
+    "F000166": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.040611 < 下限 0.000000；IC_IR -0.409357 < 下限 0.000000",
+      "error": ""
+    },
+    "F000167": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.051543 < 下限 0.000000；IC_IR -0.502574 < 下限 0.000000",
+      "error": ""
+    },
+    "F000168": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.052395 < 下限 0.000000；IC_IR -0.504107 < 下限 0.000000",
+      "error": ""
+    },
+    "F000169": {
+      "selection_feasible": false,
+      "selection_objective": -Infinity,
+      "selection_reason": "RankIC均值 -0.050117 < 下限 0.000000；IC_IR -0.486083 < 下限 0.000000",
+      "error": ""
+    }
+  }
+}

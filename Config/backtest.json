@@ -1,0 +1,8 @@
+{
+  "initial_capital": 10000.0,
+  "start_date": "20240101",
+  "end_date": "20251230",
+  "factor_key": "F000001",
+  "strategy_key": "S000001",
+  "backtest_mode": "vector"
+}

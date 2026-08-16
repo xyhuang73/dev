@@ -1,0 +1,30 @@
+{
+  "stage": "paper",
+  "environment": "paper",
+  "strategy_id": "strategy_slug",
+  "account_id": "paper_or_subaccount_id",
+  "secrets_policy": {
+    "source": "env_or_secret_manager",
+    "allow_plaintext_in_config": false,
+    "withdrawal_permission_allowed": false,
+    "ip_whitelist_required": true
+  },
+  "limits": {
+    "max_order_notional": 1000,
+    "max_symbol_position_notional": 5000,
+    "max_portfolio_notional": 10000,
+    "max_daily_loss": 500,
+    "max_orders_per_minute": 5
+  },
+  "alerts": {
+    "channels": ["telegram_or_slack_or_email"],
+    "critical_on_order_unknown": true,
+    "critical_on_position_drift": true,
+    "critical_on_data_stale_seconds": 60
+  },
+  "recovery": {
+    "reconcile_on_startup": true,
+    "safe_mode_on_mismatch": true,
+    "allow_new_orders_before_reconcile": false
+  }
+}

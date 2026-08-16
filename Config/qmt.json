@@ -1,0 +1,12 @@
+{
+  "qmt_install_path": "D:\\MiniQmt\\国金证券QMT交易端",
+  "userdata_folder_name": "userdata_mini",
+  "local_datadir_subpath": "datadir",
+  "kline_period_dir_name": "86400",
+  "local_scan_batch_size": 80,
+  "update_stock_start_day": "20150101",
+  "update_stock_end_day": "20160101",
+  "update_stock_sector": "沪深A股",
+  "update_stock_max_symbols": 0,
+  "account_id": ""
+}

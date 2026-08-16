@@ -1,0 +1,23 @@
+{
+  "dataset_id": "vendor_dataset_snapshot",
+  "asset_class": "equity_or_futures_or_crypto",
+  "calendar": "market_calendar_name",
+  "timezone": "UTC",
+  "primary_key": ["symbol", "event_time"],
+  "fields": [
+    {
+      "name": "close",
+      "source": "vendor",
+      "event_time": "bar_end_time",
+      "available_time": "bar_end_time_plus_vendor_latency",
+      "adjustment": "split_dividend_adjusted_or_raw",
+      "required": true
+    }
+  ],
+  "quality_gates": {
+    "max_missing_required_ratio": 0.001,
+    "max_duplicate_key_count": 0,
+    "max_negative_price_count": 0,
+    "require_available_time": true
+  }
+}

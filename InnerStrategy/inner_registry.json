@@ -1,0 +1,1027 @@
+{
+  "version": 2,
+  "factors": [
+    {
+      "id": "F000001",
+      "label": "F000001 | Alpha101 | alpha3",
+      "pack": "alpha_101",
+      "feature": "alpha3"
+    },
+    {
+      "id": "F000002",
+      "label": "F000002 | Alpha101 | alpha4",
+      "pack": "alpha_101",
+      "feature": "alpha4"
+    },
+    {
+      "id": "F000003",
+      "label": "F000003 | Alpha101 | alpha6",
+      "pack": "alpha_101",
+      "feature": "alpha6"
+    },
+    {
+      "id": "F000004",
+      "label": "F000004 | Alpha101 | alpha13",
+      "pack": "alpha_101",
+      "feature": "alpha13"
+    },
+    {
+      "id": "F000005",
+      "label": "F000005 | Alpha101 | alpha16",
+      "pack": "alpha_101",
+      "feature": "alpha16"
+    },
+    {
+      "id": "F000006",
+      "label": "F000006 | Alpha101 | alpha25",
+      "pack": "alpha_101",
+      "feature": "alpha25"
+    },
+    {
+      "id": "F000007",
+      "label": "F000007 | Alpha101 | alpha33",
+      "pack": "alpha_101",
+      "feature": "alpha33"
+    },
+    {
+      "id": "F000008",
+      "label": "F000008 | Alpha101 | alpha41",
+      "pack": "alpha_101",
+      "feature": "alpha41"
+    },
+    {
+      "id": "F000009",
+      "label": "F000009 | Alpha101 | alpha42",
+      "pack": "alpha_101",
+      "feature": "alpha42"
+    },
+    {
+      "id": "F000010",
+      "label": "F000010 | Alpha101 | alpha44",
+      "pack": "alpha_101",
+      "feature": "alpha44"
+    },
+    {
+      "id": "F000011",
+      "label": "F000011 | Alpha101 | alpha101",
+      "pack": "alpha_101",
+      "feature": "alpha101"
+    },
+    {
+      "id": "F000012",
+      "label": "F000012 | Alpha158 | kmid",
+      "pack": "alpha_158",
+      "feature": "kmid"
+    },
+    {
+      "id": "F000013",
+      "label": "F000013 | Alpha158 | klen",
+      "pack": "alpha_158",
+      "feature": "klen"
+    },
+    {
+      "id": "F000014",
+      "label": "F000014 | Alpha158 | kmid_2",
+      "pack": "alpha_158",
+      "feature": "kmid_2"
+    },
+    {
+      "id": "F000015",
+      "label": "F000015 | Alpha158 | kup",
+      "pack": "alpha_158",
+      "feature": "kup"
+    },
+    {
+      "id": "F000016",
+      "label": "F000016 | Alpha158 | kup_2",
+      "pack": "alpha_158",
+      "feature": "kup_2"
+    },
+    {
+      "id": "F000017",
+      "label": "F000017 | Alpha158 | klow",
+      "pack": "alpha_158",
+      "feature": "klow"
+    },
+    {
+      "id": "F000018",
+      "label": "F000018 | Alpha158 | klow_2",
+      "pack": "alpha_158",
+      "feature": "klow_2"
+    },
+    {
+      "id": "F000019",
+      "label": "F000019 | Alpha158 | ksft",
+      "pack": "alpha_158",
+      "feature": "ksft"
+    },
+    {
+      "id": "F000020",
+      "label": "F000020 | Alpha158 | ksft_2",
+      "pack": "alpha_158",
+      "feature": "ksft_2"
+    },
+    {
+      "id": "F000021",
+      "label": "F000021 | Alpha158 | open_0",
+      "pack": "alpha_158",
+      "feature": "open_0"
+    },
+    {
+      "id": "F000022",
+      "label": "F000022 | Alpha158 | high_0",
+      "pack": "alpha_158",
+      "feature": "high_0"
+    },
+    {
+      "id": "F000023",
+      "label": "F000023 | Alpha158 | low_0",
+      "pack": "alpha_158",
+      "feature": "low_0"
+    },
+    {
+      "id": "F000024",
+      "label": "F000024 | Alpha158 | vwap_0",
+      "pack": "alpha_158",
+      "feature": "vwap_0"
+    },
+    {
+      "id": "F000025",
+      "label": "F000025 | Alpha158 | roc_5",
+      "pack": "alpha_158",
+      "feature": "roc_5"
+    },
+    {
+      "id": "F000026",
+      "label": "F000026 | Alpha158 | roc_10",
+      "pack": "alpha_158",
+      "feature": "roc_10"
+    },
+    {
+      "id": "F000027",
+      "label": "F000027 | Alpha158 | roc_20",
+      "pack": "alpha_158",
+      "feature": "roc_20"
+    },
+    {
+      "id": "F000028",
+      "label": "F000028 | Alpha158 | roc_30",
+      "pack": "alpha_158",
+      "feature": "roc_30"
+    },
+    {
+      "id": "F000029",
+      "label": "F000029 | Alpha158 | roc_60",
+      "pack": "alpha_158",
+      "feature": "roc_60"
+    },
+    {
+      "id": "F000030",
+      "label": "F000030 | Alpha158 | ma_5",
+      "pack": "alpha_158",
+      "feature": "ma_5"
+    },
+    {
+      "id": "F000031",
+      "label": "F000031 | Alpha158 | ma_10",
+      "pack": "alpha_158",
+      "feature": "ma_10"
+    },
+    {
+      "id": "F000032",
+      "label": "F000032 | Alpha158 | ma_20",
+      "pack": "alpha_158",
+      "feature": "ma_20"
+    },
+    {
+      "id": "F000033",
+      "label": "F000033 | Alpha158 | ma_30",
+      "pack": "alpha_158",
+      "feature": "ma_30"
+    },
+    {
+      "id": "F000034",
+      "label": "F000034 | Alpha158 | ma_60",
+      "pack": "alpha_158",
+      "feature": "ma_60"
+    },
+    {
+      "id": "F000035",
+      "label": "F000035 | Alpha158 | std_5",
+      "pack": "alpha_158",
+      "feature": "std_5"
+    },
+    {
+      "id": "F000036",
+      "label": "F000036 | Alpha158 | std_10",
+      "pack": "alpha_158",
+      "feature": "std_10"
+    },
+    {
+      "id": "F000037",
+      "label": "F000037 | Alpha158 | std_20",
+      "pack": "alpha_158",
+      "feature": "std_20"
+    },
+    {
+      "id": "F000038",
+      "label": "F000038 | Alpha158 | std_30",
+      "pack": "alpha_158",
+      "feature": "std_30"
+    },
+    {
+      "id": "F000039",
+      "label": "F000039 | Alpha158 | std_60",
+      "pack": "alpha_158",
+      "feature": "std_60"
+    },
+    {
+      "id": "F000040",
+      "label": "F000040 | Alpha158 | beta_5",
+      "pack": "alpha_158",
+      "feature": "beta_5"
+    },
+    {
+      "id": "F000041",
+      "label": "F000041 | Alpha158 | beta_10",
+      "pack": "alpha_158",
+      "feature": "beta_10"
+    },
+    {
+      "id": "F000042",
+      "label": "F000042 | Alpha158 | beta_20",
+      "pack": "alpha_158",
+      "feature": "beta_20"
+    },
+    {
+      "id": "F000043",
+      "label": "F000043 | Alpha158 | beta_30",
+      "pack": "alpha_158",
+      "feature": "beta_30"
+    },
+    {
+      "id": "F000044",
+      "label": "F000044 | Alpha158 | beta_60",
+      "pack": "alpha_158",
+      "feature": "beta_60"
+    },
+    {
+      "id": "F000045",
+      "label": "F000045 | Alpha158 | rsqr_5",
+      "pack": "alpha_158",
+      "feature": "rsqr_5"
+    },
+    {
+      "id": "F000046",
+      "label": "F000046 | Alpha158 | rsqr_10",
+      "pack": "alpha_158",
+      "feature": "rsqr_10"
+    },
+    {
+      "id": "F000047",
+      "label": "F000047 | Alpha158 | rsqr_20",
+      "pack": "alpha_158",
+      "feature": "rsqr_20"
+    },
+    {
+      "id": "F000048",
+      "label": "F000048 | Alpha158 | rsqr_30",
+      "pack": "alpha_158",
+      "feature": "rsqr_30"
+    },
+    {
+      "id": "F000049",
+      "label": "F000049 | Alpha158 | rsqr_60",
+      "pack": "alpha_158",
+      "feature": "rsqr_60"
+    },
+    {
+      "id": "F000050",
+      "label": "F000050 | Alpha158 | resi_5",
+      "pack": "alpha_158",
+      "feature": "resi_5"
+    },
+    {
+      "id": "F000051",
+      "label": "F000051 | Alpha158 | resi_10",
+      "pack": "alpha_158",
+      "feature": "resi_10"
+    },
+    {
+      "id": "F000052",
+      "label": "F000052 | Alpha158 | resi_20",
+      "pack": "alpha_158",
+      "feature": "resi_20"
+    },
+    {
+      "id": "F000053",
+      "label": "F000053 | Alpha158 | resi_30",
+      "pack": "alpha_158",
+      "feature": "resi_30"
+    },
+    {
+      "id": "F000054",
+      "label": "F000054 | Alpha158 | resi_60",
+      "pack": "alpha_158",
+      "feature": "resi_60"
+    },
+    {
+      "id": "F000055",
+      "label": "F000055 | Alpha158 | max_5",
+      "pack": "alpha_158",
+      "feature": "max_5"
+    },
+    {
+      "id": "F000056",
+      "label": "F000056 | Alpha158 | max_10",
+      "pack": "alpha_158",
+      "feature": "max_10"
+    },
+    {
+      "id": "F000057",
+      "label": "F000057 | Alpha158 | max_20",
+      "pack": "alpha_158",
+      "feature": "max_20"
+    },
+    {
+      "id": "F000058",
+      "label": "F000058 | Alpha158 | max_30",
+      "pack": "alpha_158",
+      "feature": "max_30"
+    },
+    {
+      "id": "F000059",
+      "label": "F000059 | Alpha158 | max_60",
+      "pack": "alpha_158",
+      "feature": "max_60"
+    },
+    {
+      "id": "F000060",
+      "label": "F000060 | Alpha158 | min_5",
+      "pack": "alpha_158",
+      "feature": "min_5"
+    },
+    {
+      "id": "F000061",
+      "label": "F000061 | Alpha158 | min_10",
+      "pack": "alpha_158",
+      "feature": "min_10"
+    },
+    {
+      "id": "F000062",
+      "label": "F000062 | Alpha158 | min_20",
+      "pack": "alpha_158",
+      "feature": "min_20"
+    },
+    {
+      "id": "F000063",
+      "label": "F000063 | Alpha158 | min_30",
+      "pack": "alpha_158",
+      "feature": "min_30"
+    },
+    {
+      "id": "F000064",
+      "label": "F000064 | Alpha158 | min_60",
+      "pack": "alpha_158",
+      "feature": "min_60"
+    },
+    {
+      "id": "F000065",
+      "label": "F000065 | Alpha158 | qtlu_5",
+      "pack": "alpha_158",
+      "feature": "qtlu_5"
+    },
+    {
+      "id": "F000066",
+      "label": "F000066 | Alpha158 | qtlu_10",
+      "pack": "alpha_158",
+      "feature": "qtlu_10"
+    },
+    {
+      "id": "F000067",
+      "label": "F000067 | Alpha158 | qtlu_20",
+      "pack": "alpha_158",
+      "feature": "qtlu_20"
+    },
+    {
+      "id": "F000068",
+      "label": "F000068 | Alpha158 | qtlu_30",
+      "pack": "alpha_158",
+      "feature": "qtlu_30"
+    },
+    {
+      "id": "F000069",
+      "label": "F000069 | Alpha158 | qtlu_60",
+      "pack": "alpha_158",
+      "feature": "qtlu_60"
+    },
+    {
+      "id": "F000070",
+      "label": "F000070 | Alpha158 | qtld_5",
+      "pack": "alpha_158",
+      "feature": "qtld_5"
+    },
+    {
+      "id": "F000071",
+      "label": "F000071 | Alpha158 | qtld_10",
+      "pack": "alpha_158",
+      "feature": "qtld_10"
+    },
+    {
+      "id": "F000072",
+      "label": "F000072 | Alpha158 | qtld_20",
+      "pack": "alpha_158",
+      "feature": "qtld_20"
+    },
+    {
+      "id": "F000073",
+      "label": "F000073 | Alpha158 | qtld_30",
+      "pack": "alpha_158",
+      "feature": "qtld_30"
+    },
+    {
+      "id": "F000074",
+      "label": "F000074 | Alpha158 | qtld_60",
+      "pack": "alpha_158",
+      "feature": "qtld_60"
+    },
+    {
+      "id": "F000075",
+      "label": "F000075 | Alpha158 | rank_5",
+      "pack": "alpha_158",
+      "feature": "rank_5"
+    },
+    {
+      "id": "F000076",
+      "label": "F000076 | Alpha158 | rank_10",
+      "pack": "alpha_158",
+      "feature": "rank_10"
+    },
+    {
+      "id": "F000077",
+      "label": "F000077 | Alpha158 | rank_20",
+      "pack": "alpha_158",
+      "feature": "rank_20"
+    },
+    {
+      "id": "F000078",
+      "label": "F000078 | Alpha158 | rank_30",
+      "pack": "alpha_158",
+      "feature": "rank_30"
+    },
+    {
+      "id": "F000079",
+      "label": "F000079 | Alpha158 | rank_60",
+      "pack": "alpha_158",
+      "feature": "rank_60"
+    },
+    {
+      "id": "F000080",
+      "label": "F000080 | Alpha158 | rsv_5",
+      "pack": "alpha_158",
+      "feature": "rsv_5"
+    },
+    {
+      "id": "F000081",
+      "label": "F000081 | Alpha158 | rsv_10",
+      "pack": "alpha_158",
+      "feature": "rsv_10"
+    },
+    {
+      "id": "F000082",
+      "label": "F000082 | Alpha158 | rsv_20",
+      "pack": "alpha_158",
+      "feature": "rsv_20"
+    },
+    {
+      "id": "F000083",
+      "label": "F000083 | Alpha158 | rsv_30",
+      "pack": "alpha_158",
+      "feature": "rsv_30"
+    },
+    {
+      "id": "F000084",
+      "label": "F000084 | Alpha158 | rsv_60",
+      "pack": "alpha_158",
+      "feature": "rsv_60"
+    },
+    {
+      "id": "F000085",
+      "label": "F000085 | Alpha158 | imax_5",
+      "pack": "alpha_158",
+      "feature": "imax_5"
+    },
+    {
+      "id": "F000086",
+      "label": "F000086 | Alpha158 | imax_10",
+      "pack": "alpha_158",
+      "feature": "imax_10"
+    },
+    {
+      "id": "F000087",
+      "label": "F000087 | Alpha158 | imax_20",
+      "pack": "alpha_158",
+      "feature": "imax_20"
+    },
+    {
+      "id": "F000088",
+      "label": "F000088 | Alpha158 | imax_30",
+      "pack": "alpha_158",
+      "feature": "imax_30"
+    },
+    {
+      "id": "F000089",
+      "label": "F000089 | Alpha158 | imax_60",
+      "pack": "alpha_158",
+      "feature": "imax_60"
+    },
+    {
+      "id": "F000090",
+      "label": "F000090 | Alpha158 | imin_5",
+      "pack": "alpha_158",
+      "feature": "imin_5"
+    },
+    {
+      "id": "F000091",
+      "label": "F000091 | Alpha158 | imin_10",
+      "pack": "alpha_158",
+      "feature": "imin_10"
+    },
+    {
+      "id": "F000092",
+      "label": "F000092 | Alpha158 | imin_20",
+      "pack": "alpha_158",
+      "feature": "imin_20"
+    },
+    {
+      "id": "F000093",
+      "label": "F000093 | Alpha158 | imin_30",
+      "pack": "alpha_158",
+      "feature": "imin_30"
+    },
+    {
+      "id": "F000094",
+      "label": "F000094 | Alpha158 | imin_60",
+      "pack": "alpha_158",
+      "feature": "imin_60"
+    },
+    {
+      "id": "F000095",
+      "label": "F000095 | Alpha158 | imxd_5",
+      "pack": "alpha_158",
+      "feature": "imxd_5"
+    },
+    {
+      "id": "F000096",
+      "label": "F000096 | Alpha158 | imxd_10",
+      "pack": "alpha_158",
+      "feature": "imxd_10"
+    },
+    {
+      "id": "F000097",
+      "label": "F000097 | Alpha158 | imxd_20",
+      "pack": "alpha_158",
+      "feature": "imxd_20"
+    },
+    {
+      "id": "F000098",
+      "label": "F000098 | Alpha158 | imxd_30",
+      "pack": "alpha_158",
+      "feature": "imxd_30"
+    },
+    {
+      "id": "F000099",
+      "label": "F000099 | Alpha158 | imxd_60",
+      "pack": "alpha_158",
+      "feature": "imxd_60"
+    },
+    {
+      "id": "F000100",
+      "label": "F000100 | Alpha158 | corr_5",
+      "pack": "alpha_158",
+      "feature": "corr_5"
+    },
+    {
+      "id": "F000101",
+      "label": "F000101 | Alpha158 | corr_10",
+      "pack": "alpha_158",
+      "feature": "corr_10"
+    },
+    {
+      "id": "F000102",
+      "label": "F000102 | Alpha158 | corr_20",
+      "pack": "alpha_158",
+      "feature": "corr_20"
+    },
+    {
+      "id": "F000103",
+      "label": "F000103 | Alpha158 | corr_30",
+      "pack": "alpha_158",
+      "feature": "corr_30"
+    },
+    {
+      "id": "F000104",
+      "label": "F000104 | Alpha158 | corr_60",
+      "pack": "alpha_158",
+      "feature": "corr_60"
+    },
+    {
+      "id": "F000105",
+      "label": "F000105 | Alpha158 | cord_5",
+      "pack": "alpha_158",
+      "feature": "cord_5"
+    },
+    {
+      "id": "F000106",
+      "label": "F000106 | Alpha158 | cord_10",
+      "pack": "alpha_158",
+      "feature": "cord_10"
+    },
+    {
+      "id": "F000107",
+      "label": "F000107 | Alpha158 | cord_20",
+      "pack": "alpha_158",
+      "feature": "cord_20"
+    },
+    {
+      "id": "F000108",
+      "label": "F000108 | Alpha158 | cord_30",
+      "pack": "alpha_158",
+      "feature": "cord_30"
+    },
+    {
+      "id": "F000109",
+      "label": "F000109 | Alpha158 | cord_60",
+      "pack": "alpha_158",
+      "feature": "cord_60"
+    },
+    {
+      "id": "F000110",
+      "label": "F000110 | Alpha158 | cntp_5",
+      "pack": "alpha_158",
+      "feature": "cntp_5"
+    },
+    {
+      "id": "F000111",
+      "label": "F000111 | Alpha158 | cntp_10",
+      "pack": "alpha_158",
+      "feature": "cntp_10"
+    },
+    {
+      "id": "F000112",
+      "label": "F000112 | Alpha158 | cntp_20",
+      "pack": "alpha_158",
+      "feature": "cntp_20"
+    },
+    {
+      "id": "F000113",
+      "label": "F000113 | Alpha158 | cntp_30",
+      "pack": "alpha_158",
+      "feature": "cntp_30"
+    },
+    {
+      "id": "F000114",
+      "label": "F000114 | Alpha158 | cntp_60",
+      "pack": "alpha_158",
+      "feature": "cntp_60"
+    },
+    {
+      "id": "F000115",
+      "label": "F000115 | Alpha158 | cntn_5",
+      "pack": "alpha_158",
+      "feature": "cntn_5"
+    },
+    {
+      "id": "F000116",
+      "label": "F000116 | Alpha158 | cntn_10",
+      "pack": "alpha_158",
+      "feature": "cntn_10"
+    },
+    {
+      "id": "F000117",
+      "label": "F000117 | Alpha158 | cntn_20",
+      "pack": "alpha_158",
+      "feature": "cntn_20"
+    },
+    {
+      "id": "F000118",
+      "label": "F000118 | Alpha158 | cntn_30",
+      "pack": "alpha_158",
+      "feature": "cntn_30"
+    },
+    {
+      "id": "F000119",
+      "label": "F000119 | Alpha158 | cntn_60",
+      "pack": "alpha_158",
+      "feature": "cntn_60"
+    },
+    {
+      "id": "F000120",
+      "label": "F000120 | Alpha158 | cntd_5",
+      "pack": "alpha_158",
+      "feature": "cntd_5"
+    },
+    {
+      "id": "F000121",
+      "label": "F000121 | Alpha158 | cntd_10",
+      "pack": "alpha_158",
+      "feature": "cntd_10"
+    },
+    {
+      "id": "F000122",
+      "label": "F000122 | Alpha158 | cntd_20",
+      "pack": "alpha_158",
+      "feature": "cntd_20"
+    },
+    {
+      "id": "F000123",
+      "label": "F000123 | Alpha158 | cntd_30",
+      "pack": "alpha_158",
+      "feature": "cntd_30"
+    },
+    {
+      "id": "F000124",
+      "label": "F000124 | Alpha158 | cntd_60",
+      "pack": "alpha_158",
+      "feature": "cntd_60"
+    },
+    {
+      "id": "F000125",
+      "label": "F000125 | Alpha158 | sump_5",
+      "pack": "alpha_158",
+      "feature": "sump_5"
+    },
+    {
+      "id": "F000126",
+      "label": "F000126 | Alpha158 | sump_10",
+      "pack": "alpha_158",
+      "feature": "sump_10"
+    },
+    {
+      "id": "F000127",
+      "label": "F000127 | Alpha158 | sump_20",
+      "pack": "alpha_158",
+      "feature": "sump_20"
+    },
+    {
+      "id": "F000128",
+      "label": "F000128 | Alpha158 | sump_30",
+      "pack": "alpha_158",
+      "feature": "sump_30"
+    },
+    {
+      "id": "F000129",
+      "label": "F000129 | Alpha158 | sump_60",
+      "pack": "alpha_158",
+      "feature": "sump_60"
+    },
+    {
+      "id": "F000130",
+      "label": "F000130 | Alpha158 | sumn_5",
+      "pack": "alpha_158",
+      "feature": "sumn_5"
+    },
+    {
+      "id": "F000131",
+      "label": "F000131 | Alpha158 | sumn_10",
+      "pack": "alpha_158",
+      "feature": "sumn_10"
+    },
+    {
+      "id": "F000132",
+      "label": "F000132 | Alpha158 | sumn_20",
+      "pack": "alpha_158",
+      "feature": "sumn_20"
+    },
+    {
+      "id": "F000133",
+      "label": "F000133 | Alpha158 | sumn_30",
+      "pack": "alpha_158",
+      "feature": "sumn_30"
+    },
+    {
+      "id": "F000134",
+      "label": "F000134 | Alpha158 | sumn_60",
+      "pack": "alpha_158",
+      "feature": "sumn_60"
+    },
+    {
+      "id": "F000135",
+      "label": "F000135 | Alpha158 | sumd_5",
+      "pack": "alpha_158",
+      "feature": "sumd_5"
+    },
+    {
+      "id": "F000136",
+      "label": "F000136 | Alpha158 | sumd_10",
+      "pack": "alpha_158",
+      "feature": "sumd_10"
+    },
+    {
+      "id": "F000137",
+      "label": "F000137 | Alpha158 | sumd_20",
+      "pack": "alpha_158",
+      "feature": "sumd_20"
+    },
+    {
+      "id": "F000138",
+      "label": "F000138 | Alpha158 | sumd_30",
+      "pack": "alpha_158",
+      "feature": "sumd_30"
+    },
+    {
+      "id": "F000139",
+      "label": "F000139 | Alpha158 | sumd_60",
+      "pack": "alpha_158",
+      "feature": "sumd_60"
+    },
+    {
+      "id": "F000140",
+      "label": "F000140 | Alpha158 | vma_5",
+      "pack": "alpha_158",
+      "feature": "vma_5"
+    },
+    {
+      "id": "F000141",
+      "label": "F000141 | Alpha158 | vma_10",
+      "pack": "alpha_158",
+      "feature": "vma_10"
+    },
+    {
+      "id": "F000142",
+      "label": "F000142 | Alpha158 | vma_20",
+      "pack": "alpha_158",
+      "feature": "vma_20"
+    },
+    {
+      "id": "F000143",
+      "label": "F000143 | Alpha158 | vma_30",
+      "pack": "alpha_158",
+      "feature": "vma_30"
+    },
+    {
+      "id": "F000144",
+      "label": "F000144 | Alpha158 | vma_60",
+      "pack": "alpha_158",
+      "feature": "vma_60"
+    },
+    {
+      "id": "F000145",
+      "label": "F000145 | Alpha158 | vstd_5",
+      "pack": "alpha_158",
+      "feature": "vstd_5"
+    },
+    {
+      "id": "F000146",
+      "label": "F000146 | Alpha158 | vstd_10",
+      "pack": "alpha_158",
+      "feature": "vstd_10"
+    },
+    {
+      "id": "F000147",
+      "label": "F000147 | Alpha158 | vstd_20",
+      "pack": "alpha_158",
+      "feature": "vstd_20"
+    },
+    {
+      "id": "F000148",
+      "label": "F000148 | Alpha158 | vstd_30",
+      "pack": "alpha_158",
+      "feature": "vstd_30"
+    },
+    {
+      "id": "F000149",
+      "label": "F000149 | Alpha158 | vstd_60",
+      "pack": "alpha_158",
+      "feature": "vstd_60"
+    },
+    {
+      "id": "F000150",
+      "label": "F000150 | Alpha158 | wvma_5",
+      "pack": "alpha_158",
+      "feature": "wvma_5"
+    },
+    {
+      "id": "F000151",
+      "label": "F000151 | Alpha158 | wvma_10",
+      "pack": "alpha_158",
+      "feature": "wvma_10"
+    },
+    {
+      "id": "F000152",
+      "label": "F000152 | Alpha158 | wvma_20",
+      "pack": "alpha_158",
+      "feature": "wvma_20"
+    },
+    {
+      "id": "F000153",
+      "label": "F000153 | Alpha158 | wvma_30",
+      "pack": "alpha_158",
+      "feature": "wvma_30"
+    },
+    {
+      "id": "F000154",
+      "label": "F000154 | Alpha158 | wvma_60",
+      "pack": "alpha_158",
+      "feature": "wvma_60"
+    },
+    {
+      "id": "F000155",
+      "label": "F000155 | Alpha158 | vsump_5",
+      "pack": "alpha_158",
+      "feature": "vsump_5"
+    },
+    {
+      "id": "F000156",
+      "label": "F000156 | Alpha158 | vsump_10",
+      "pack": "alpha_158",
+      "feature": "vsump_10"
+    },
+    {
+      "id": "F000157",
+      "label": "F000157 | Alpha158 | vsump_20",
+      "pack": "alpha_158",
+      "feature": "vsump_20"
+    },
+    {
+      "id": "F000158",
+      "label": "F000158 | Alpha158 | vsump_30",
+      "pack": "alpha_158",
+      "feature": "vsump_30"
+    },
+    {
+      "id": "F000159",
+      "label": "F000159 | Alpha158 | vsump_60",
+      "pack": "alpha_158",
+      "feature": "vsump_60"
+    },
+    {
+      "id": "F000160",
+      "label": "F000160 | Alpha158 | vsumn_5",
+      "pack": "alpha_158",
+      "feature": "vsumn_5"
+    },
+    {
+      "id": "F000161",
+      "label": "F000161 | Alpha158 | vsumn_10",
+      "pack": "alpha_158",
+      "feature": "vsumn_10"
+    },
+    {
+      "id": "F000162",
+      "label": "F000162 | Alpha158 | vsumn_20",
+      "pack": "alpha_158",
+      "feature": "vsumn_20"
+    },
+    {
+      "id": "F000163",
+      "label": "F000163 | Alpha158 | vsumn_30",
+      "pack": "alpha_158",
+      "feature": "vsumn_30"
+    },
+    {
+      "id": "F000164",
+      "label": "F000164 | Alpha158 | vsumn_60",
+      "pack": "alpha_158",
+      "feature": "vsumn_60"
+    },
+    {
+      "id": "F000165",
+      "label": "F000165 | Alpha158 | vsumd_5",
+      "pack": "alpha_158",
+      "feature": "vsumd_5"
+    },
+    {
+      "id": "F000166",
+      "label": "F000166 | Alpha158 | vsumd_10",
+      "pack": "alpha_158",
+      "feature": "vsumd_10"
+    },
+    {
+      "id": "F000167",
+      "label": "F000167 | Alpha158 | vsumd_20",
+      "pack": "alpha_158",
+      "feature": "vsumd_20"
+    },
+    {
+      "id": "F000168",
+      "label": "F000168 | Alpha158 | vsumd_30",
+      "pack": "alpha_158",
+      "feature": "vsumd_30"
+    },
+    {
+      "id": "F000169",
+      "label": "F000169 | Alpha158 | vsumd_60",
+      "pack": "alpha_158",
+      "feature": "vsumd_60"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "S000001",
+      "label": "S000001 | stratified_ls_sharpe_equal_weight_strategy | StratifiedLongShortSharpeEqualWeightStrategy",
+      "module": "stratified_ls_sharpe_equal_weight_strategy",
+      "class": "StratifiedLongShortSharpeEqualWeightStrategy"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "min_rank_ic_mean": 0.0,
+  "min_ic_ir": 0.0,
+  "annualization_days": 252,
+  "n_quantiles": 10,
+  "min_names_per_day": 10,
+  "max_symbols": 40,
+  "factor_eval_parallel_cap": 0,
+  "market_data_source": "local_datadir",
+  "factor_eval_front_n": 256,
+  "skip_qmt_process_check": false,
+  "qmt_process_name_substrings": [
+    "XtMiniQmt",
+    "miniqmt",
+    "XtItClient",
+    "QMT"
+  ],
+  "use_factor_stock_pool": true,
+  "stock_pool_refresh_each_run": true,
+  "exclude_b_shares": true,
+  "exclude_st_by_name": true,
+  "exclude_delisted_meta": true
+}

@@ -1,0 +1,7 @@
+{
+  "alpha158_ts_windows": [5, 10, 20, 30, 60],
+  "eps": 1e-12,
+  "quantile_high": 0.8,
+  "quantile_low": 0.2,
+  "log_volume_offset": 1.0
+}

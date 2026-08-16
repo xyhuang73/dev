@@ -1,0 +1,3 @@
+核心 R_ann × R²：原策略是 w=linspace(1,2) 的加权最小二乘回归。Alpha101 无"加权回归"算子，
+我用 decay_linear 给 log(close) 做近端加权，再用 correlation(·, t) 取趋势相关度，rho² 即拟合优度 R²，
+斜率用 OLS 恒等式 slope = rho·σ_y/σ_t 还原行为上与原式一致

@@ -1,0 +1,21 @@
+# 本仓库：每个开发者/机器在本目录使用独立虚拟环境，避免与其它项目（如全局 vnpy/streamlit）混装
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# 工具 / IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# 报告与本地生成物（按需取消忽略；因子/策略 Excel 在 reports/factor、reports/strategy）
+# reports/
