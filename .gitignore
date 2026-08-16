@@ -1,5 +1,6 @@
 # 本仓库：每个开发者/机器在本目录使用独立虚拟环境，避免与其它项目（如全局 vnpy/streamlit）混装
 .venv/
+.venv311/
 venv/
 env/
 
