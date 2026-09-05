@@ -786,6 +786,7 @@ def simulate_slss_trades(
     merged: pd.DataFrame,
     job: BacktestJobConfig,
     *,
+    strategy_config=None,
     buy_threshold: float | None = None,
     sell_threshold: float | None = None,
     fixed_lot: int | None = None,
@@ -801,7 +802,7 @@ def simulate_slss_trades(
     if miss:
         raise ValueError(f"simulate_slss_trades 缺少列: {miss}")
 
-    cfg = load_slss_strategy_config()
+    cfg = strategy_config or load_slss_strategy_config(overrides=job.effective_strategy_params())
     lot = int(fixed_lot) if fixed_lot is not None else int(cfg.fixed_lot)
     tsim = cfg.trade_simulation
     # selection 门控：与策略侧一致，快照缺失按不通过处理。

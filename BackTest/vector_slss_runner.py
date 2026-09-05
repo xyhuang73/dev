@@ -66,6 +66,7 @@ def _merge_alpha_packs_for_bundle(
     test_p: tuple[str, str],
     *,
     max_workers: int,
+    factor_ids: tuple[str, ...] | list[str] | None = None,
 ) -> pd.DataFrame:
     """
     按 ``Config/slss_strategy.json`` 中 ``bundle_factor_ids`` 解析 pack，分别 prepare alpha_158 / alpha_101 并合并列。
@@ -73,7 +74,7 @@ def _merge_alpha_packs_for_bundle(
     Returns:
         含 datetime, vt_symbol, OHLCV 及全部 bundle 特征列的宽表。
     """
-    cfg_ids = load_slss_strategy_config().bundle_factor_ids
+    cfg_ids = tuple(factor_ids) if factor_ids is not None else load_slss_strategy_config().bundle_factor_ids
     specs: list[tuple[str, str]] = []
     for fid in cfg_ids:
         ent = get_factor_entry(fid)
@@ -183,7 +184,7 @@ def run_vector_slss_backtest(
     eval_cfg = load_factor_evaluation_json()
     # max_symbols 统一由 GUI 的 spinBox_max_symbols 写入配置后读取，不再使用代码常量兜底。
     max_symbols = read_max_symbols_from_eval_cfg(eval_cfg)
-    slss_cfg = load_slss_strategy_config()
+    slss_cfg = load_slss_strategy_config(overrides=job.effective_strategy_params())
     single_json = load_single_factor_parameters_json()
     mw = max(1, int(slss_cfg.alpha_prepare_workers or single_json.get("alpha_prepare_max_workers") or 1))
     _log_line(
@@ -239,6 +240,7 @@ def run_vector_slss_backtest(
             valid_p,
             test_p,
             max_workers=mw,
+            factor_ids=slss_cfg.bundle_factor_ids,
         )
     except Exception as exc:  # noqa: BLE001
         err = f"Alpha 计算失败: {type(exc).__name__}: {exc}"
@@ -282,7 +284,12 @@ def run_vector_slss_backtest(
 
     # 与 CTA 策略同阈值的逐标的买卖模拟，用于报告中的成交笔数与收益率统计
     _log_line(progress, "[向量SLSS] 正在逐标的模拟成交…")
-    trades_df, rounds_df, per_sym_df, portfolio_stats = simulate_slss_trades(merged, job)
+    trades_df, rounds_df, per_sym_df, portfolio_stats = simulate_slss_trades(
+        merged, job, strategy_config=slss_cfg,
+    )
+    from quant.strategy.adapters.s000002 import build_s000002_outputs  # noqa: PLC0415
+
+    signal_frame, target_positions = build_s000002_outputs(merged, slss_cfg, portfolio_stats)
     _log_line(
         progress,
         f"[向量SLSS] 逐笔模拟完成: 开平回合数={portfolio_stats.get('total_round_trips', '')}, "
@@ -400,7 +407,13 @@ def run_vector_slss_backtest(
         portfolio_stats=portfolio_stats,
     )
     _log_line(progress, f"[向量SLSS] 完成。Excel: {xlsx}")
-    return BacktestResult(True, msg, excel_path=str(xlsx))
+    return BacktestResult(
+        True,
+        msg,
+        excel_path=str(xlsx),
+        signal_frame=signal_frame,
+        target_positions=target_positions,
+    )
 
 
 def _fmt_num(x: Any) -> str:

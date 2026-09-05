@@ -4,7 +4,7 @@
   "annualization_days": 252,
   "n_quantiles": 10,
   "min_names_per_day": 10,
-  "max_symbols": 40,
+  "max_symbols": 39,
   "factor_eval_parallel_cap": 0,
   "market_data_source": "local_datadir",
   "factor_eval_front_n": 256,

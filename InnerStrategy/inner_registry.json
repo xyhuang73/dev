@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "factors": [
     {
       "id": "F000001",
@@ -1019,9 +1019,17 @@
   "strategies": [
     {
       "id": "S000001",
-      "label": "S000001 | stratified_ls_sharpe_equal_weight_strategy | StratifiedLongShortSharpeEqualWeightStrategy",
+      "label": "S000001 | qixingaozhao_etf_rotation_strategy | QixingaozhaoEtfRotationStrategy",
+      "module": "qixingaozhao_etf_rotation_strategy",
+      "class": "QixingaozhaoEtfRotationStrategy",
+      "version": "1.0.0"
+    },
+    {
+      "id": "S000002",
+      "label": "S000002 | stratified_ls_sharpe_equal_weight_strategy | StratifiedLongShortSharpeEqualWeightStrategy",
       "module": "stratified_ls_sharpe_equal_weight_strategy",
-      "class": "StratifiedLongShortSharpeEqualWeightStrategy"
+      "class": "StratifiedLongShortSharpeEqualWeightStrategy",
+      "version": "1.0.0"
     }
   ]
 }

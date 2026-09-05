@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-06-14T11:04:32+08:00",
+  "updated_at": "2026-09-05T23:10:53+08:00",
   "source": "local_datadir",
   "symbols": [
     "000001.SH",
@@ -41,11 +41,10 @@
     "600051.SH",
     "600052.SH",
     "600053.SH",
-    "600054.SH",
-    "600055.SH"
+    "600054.SH"
   ],
   "stats": {
-    "n_kept": 40,
-    "max_symbols_applied": 40
+    "n_kept": 39,
+    "max_symbols_applied": 39
   }
 }

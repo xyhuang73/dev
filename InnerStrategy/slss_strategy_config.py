@@ -212,7 +212,11 @@ def _dict_to_config(data: dict[str, Any]) -> SlssStrategyConfig:
     )
 
 
-def load_slss_strategy_config(*, ensure_file: bool = True) -> SlssStrategyConfig:
+def load_slss_strategy_config(
+    *,
+    ensure_file: bool = True,
+    overrides: dict[str, Any] | None = None,
+) -> SlssStrategyConfig:
     """
     读取 ``Config/slss_strategy.json``。
 
@@ -226,14 +230,52 @@ def load_slss_strategy_config(*, ensure_file: bool = True) -> SlssStrategyConfig
             encoding="utf-8",
         )
     if not SLSS_STRATEGY_JSON_PATH.is_file():
-        return _dict_to_config(_default_config_dict())
+        data = _default_config_dict()
+        if overrides:
+            data.update(overrides)
+        return _dict_to_config(data)
     try:
         data = json.loads(SLSS_STRATEGY_JSON_PATH.read_text(encoding="utf-8"))
         if not isinstance(data, dict):
-            return _dict_to_config(_default_config_dict())
+            data = _default_config_dict()
+        if overrides:
+            data.update(overrides)
         return _dict_to_config(data)
     except (json.JSONDecodeError, OSError, TypeError, ValueError):
-        return _dict_to_config(_default_config_dict())
+        data = _default_config_dict()
+        if overrides:
+            data.update(overrides)
+        return _dict_to_config(data)
+
+
+def slss_strategy_config_to_dict(cfg: SlssStrategyConfig) -> dict[str, Any]:
+    """将只读配置转换为可序列化、可作为 RunConfig 快照的参数字典。"""
+    return {
+        "version": cfg.version,
+        "stratified_long_short_sharpe_objective_en": cfg.stratified_long_short_sharpe_objective_en,
+        "bundle_factor_ids": list(cfg.bundle_factor_ids),
+        "equal_weight": cfg.equal_weight,
+        "explicit_weights": list(cfg.explicit_weights) if cfg.explicit_weights is not None else None,
+        "decision_mode": cfg.decision_mode,
+        "cross_section_long_top_n": cfg.cross_section_long_top_n,
+        "cross_section_short_min_rank": cfg.cross_section_short_min_rank,
+        "cross_section_long_require_close_positive": cfg.cross_section_long_require_close_positive,
+        "cross_section_long_require_composite_positive": cfg.cross_section_long_require_composite_positive,
+        "cross_section_short_bottom_n": cfg.cross_section_short_bottom_n,
+        "cross_section_short_or_negative_composite": cfg.cross_section_short_or_negative_composite,
+        "a_share_cash_stock_rules": cfg.a_share_cash_stock_rules,
+        "buy_threshold": cfg.buy_threshold,
+        "sell_threshold": cfg.sell_threshold,
+        "fixed_lot": cfg.fixed_lot,
+        "alpha_prepare_workers": cfg.alpha_prepare_workers,
+        "trade_simulation": {
+            "rolling_window": cfg.trade_simulation.rolling_window,
+            "rolling_min_periods": cfg.trade_simulation.rolling_min_periods,
+            "fallback_buy_z": cfg.trade_simulation.fallback_buy_z,
+            "fallback_sell_z": cfg.trade_simulation.fallback_sell_z,
+            "enable_rolling_z_fallback": cfg.trade_simulation.enable_rolling_z_fallback,
+        },
+    }
 
 
 def compute_slss_composite_series(df: pd.DataFrame, feature_cols: list[str], cfg: SlssStrategyConfig) -> pd.Series:

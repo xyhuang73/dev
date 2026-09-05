@@ -9,6 +9,7 @@ from collections.abc import Callable
 from .engines.event_engine import EventDrivenBacktestEngine
 from .engines.vector_engine import VectorBacktestEngine
 from .models import BacktestJobConfig, BacktestResult
+from .adapters.job_config_adapter import job_to_run_config
 
 # 无状态占位引擎可单例复用
 _VECTOR = VectorBacktestEngine()
@@ -25,6 +26,14 @@ def run_backtest(
 
     progress: 可选进度文本回调（对话框追加等）；各引擎内部对关键步骤应 ``print``。
     """
+    # GUI 仍提交旧 BacktestJobConfig；在唯一入口完成新合同校验和参数冻结。
+    try:
+        run_config = job_to_run_config(job)
+    except (TypeError, ValueError) as exc:
+        return BacktestResult(False, f"回测配置无效: {exc}")
+    job.resolved_strategy_params = dict(run_config.strategy_params)
+    job.run_id = run_config.run_id
+
     if job.backtest_mode == "vector":
         return _VECTOR.run(job, progress=progress)
     if job.backtest_mode == "event":

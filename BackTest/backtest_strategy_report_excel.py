@@ -171,7 +171,11 @@ def write_slss_vector_backtest_excel(
         写入后的 ``.xlsx`` 绝对路径。
     """
     ts = _timestamp_slug()
-    path = _strategy_reports_dir() / f"strategy_backtest_SLSS_{job.strategy_key}_{ts}.xlsx"
+    file_name = f"strategy_backtest_SLSS_{job.strategy_key}_{ts}.xlsx"
+    # 输出结构：reports/strategy/<同名同名>.xlsx；同名文件夹用于放按股票拆出的逐笔 xlsx
+    report_dir = _strategy_reports_dir() / file_name.replace(".xlsx", "")
+    report_dir.mkdir(parents=True, exist_ok=True)
+    path = report_dir / file_name
 
     # 指标：单行宽表便于复制；再附一张纵表便于阅读
     # 宽表单元格若保留 float，Excel 常把极小/极大数显示为科学计数法，故统一经 _excel_scalar 文本化
@@ -288,24 +292,107 @@ def write_slss_vector_backtest_excel(
         port_df = port_df.copy()
         port_df["value"] = port_df["value"].map(_excel_scalar)
 
+    # 本次输出约定：
+    #   1) reports/strategy/<同名文件夹>/<同名 xlsx> 是「汇总文件」，必须保留其 14 个 sheet 主体；
+    #   2) 但「开平回合盈亏」「按股票汇总统计」这两个 sheet **不放进主汇总文件**，
+    #      而是写到同名文件夹下的单票 xlsx（trades_<symbol>.xlsx）里；
+    #   3) 单票 xlsx 含三个 sheet：按股票汇总统计 / 开平回合盈亏 / 逐笔买卖明细。
     with pd.ExcelWriter(path, engine="openpyxl") as writer:
         _job_rows(job).to_excel(writer, sheet_name="回测任务", index=False)
         _ui_factor_row(job).to_excel(writer, sheet_name="界面因子引用", index=False)
         _strategy_row(job).to_excel(writer, sheet_name="策略注册", index=False)
         _slss_factor_weight_table().to_excel(writer, sheet_name="引用因子与权值", index=False)
+        summary_extra.to_excel(writer, sheet_name="策略规则摘要", index=False)
         met_wide.to_excel(writer, sheet_name="截面指标_宽表", index=False)
         met_long.to_excel(writer, sheet_name="截面指标_纵表", index=False)
-        cfg_df.to_excel(writer, sheet_name="factor_evaluation配置", index=False)
+        cfg_df.to_excel(writer, sheet_name="factor_evaluation概要", index=False)
         pool_df.to_excel(writer, sheet_name="股票池元信息", index=False)
-        summary_extra.to_excel(writer, sheet_name="合成与样本摘要", index=False)
-        methodology.to_excel(writer, sheet_name="口径说明", index=False)
-        td.to_excel(writer, sheet_name="逐笔买卖明细", index=False)
-        rt.to_excel(writer, sheet_name="开平回合盈亏", index=False)
-        ps.to_excel(writer, sheet_name="按股票汇总统计", index=False)
-        port_df.to_excel(writer, sheet_name="组合收益与成交统计", index=False)
+        methodology.to_excel(writer, sheet_name="合成信号摘要", index=False)
+        # 注：跳过「开平回合盈亏」「按股票汇总统计」——这两个 sheet 已在单票文件里：
+        port_df.to_excel(writer, sheet_name="组合收益统计", index=False)
+        if not td.empty:
+            _excel_stringify_float_columns(td).to_excel(writer, sheet_name="逐笔买卖明细", index=False)
         text_df.to_excel(writer, sheet_name="文本报告", index=False)
 
+    _write_per_symbol_workbook(report_dir, td, rt, ps)
+
     return path.resolve()
+
+
+def _safe_symbol_slug(symbol: str) -> str:
+    """把 vt_symbol 改成可作为文件名的形式（屏蔽路径分隔符与控制字符）。"""
+    raw = str(symbol or "").strip()
+    if not raw:
+        return "UNKNOWN"
+    bad = '<>:"/\\|?*' + "".join(chr(c) for c in range(32))
+    out = "".join("_" if ch in bad else ch for ch in raw)
+    return out or "UNKNOWN"
+
+
+def _write_per_symbol_workbook(
+    report_dir: Path,
+    trade_detail_df: pd.DataFrame,
+    round_trip_df: pd.DataFrame,
+    per_symbol_stats_df: pd.DataFrame,
+) -> list[Path]:
+    """
+    按 ``vt_symbol`` 拆出单票 xlsx：每只票三个 sheet。
+
+    Sheet 1「按股票汇总统计」：仅当该票在 ``per_symbol_stats_df`` 中有行时写入；
+    Sheet 2「开平回合盈亏」：仅当该票在 ``round_trip_df`` 中有行时写入；
+    Sheet 3「逐笔买卖明细」：完整逐笔记录（含未平仓的半笔）。
+
+    行为约定：
+    - 以 ``vt_symbol`` 为统一分组键；任一表中缺失该列的，跳过对应 sheet（仍输出其它可用 sheet）。
+    - 任一股票若在三个表里都没有数据，则跳过整个文件（不创建空 xlsx）。
+    - 仅当文件至少写入了一个 sheet 时才创建。
+    """
+    if trade_detail_df is None and round_trip_df is None and per_symbol_stats_df is None:
+        return []
+
+    symbols: set[str] = set()
+    for df in (trade_detail_df, round_trip_df, per_symbol_stats_df):
+        if df is not None and not df.empty and "vt_symbol" in df.columns:
+            symbols.update(df["vt_symbol"].dropna().astype(str).tolist())
+
+    written: list[Path] = []
+    for symbol in sorted(symbols):
+        slug = _safe_symbol_slug(symbol)
+        target = report_dir / f"trades_{slug}.xlsx"
+
+        sub_td = _safe_sub(trade_detail_df, symbol, sort_keys=["datetime", "vt_symbol"])
+        sub_rt = _safe_sub(round_trip_df, symbol, sort_keys=["open_datetime", "vt_symbol"])
+        sub_ps = _safe_sub(per_symbol_stats_df, symbol, sort_keys=["vt_symbol"])
+
+        sheet_count = 0
+        with pd.ExcelWriter(target, engine="openpyxl") as writer:
+            if sub_ps is not None and not sub_ps.empty:
+                sub_ps.to_excel(writer, sheet_name="按股票汇总统计", index=False)
+                sheet_count += 1
+            if sub_rt is not None and not sub_rt.empty:
+                sub_rt.to_excel(writer, sheet_name="开平回合盈亏", index=False)
+                sheet_count += 1
+            if sub_td is not None and not sub_td.empty:
+                sub_td.to_excel(writer, sheet_name="逐笔买卖明细", index=False)
+                sheet_count += 1
+        if sheet_count > 0:
+            written.append(target.resolve())
+    return written
+
+
+def _safe_sub(df: pd.DataFrame | None, symbol: str, *, sort_keys: list[str]) -> pd.DataFrame | None:
+    """按 ``symbol`` 过滤 + 排序，缺失列时原样返回（保持时序）。"""
+    if df is None or df.empty:
+        return df
+    if "vt_symbol" not in df.columns:
+        return df
+    sub = df.loc[df["vt_symbol"].astype(str) == str(symbol)].copy()
+    if sub.empty:
+        return sub
+    keys = [k for k in sort_keys if k in sub.columns]
+    if keys:
+        sub = sub.sort_values(keys, kind="mergesort").reset_index(drop=True)
+    return sub
 
 
 def write_generic_strategy_backtest_excel(job: BacktestJobConfig, result: BacktestResult) -> Path:
@@ -315,7 +402,10 @@ def write_generic_strategy_backtest_excel(job: BacktestJobConfig, result: Backte
     仍输出界面因子、策略注册与完整 message，便于留档。
     """
     ts = _timestamp_slug()
-    path = _strategy_reports_dir() / f"strategy_backtest_{job.strategy_key}_{ts}.xlsx"
+    file_name = f"strategy_backtest_{job.strategy_key}_{ts}.xlsx"
+    report_dir = _strategy_reports_dir() / file_name.replace(".xlsx", "")
+    report_dir.mkdir(parents=True, exist_ok=True)
+    path = report_dir / file_name
     text_lines = result.message.splitlines()
     text_df = pd.DataFrame({"line_no": range(1, len(text_lines) + 1), "content": text_lines})
     status = pd.DataFrame([{"ok": result.ok}])

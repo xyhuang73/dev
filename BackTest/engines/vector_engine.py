@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from InnerStrategy.inner_registry import get_strategy_entry
+from quant.strategy.registry import get_strategy_spec
 
 from .base import BacktestEngine
 from .placeholder_result import build_placeholder_backtest_result
@@ -18,27 +18,20 @@ from ..models import BacktestJobConfig, BacktestResult
 
 
 class VectorBacktestEngine(BacktestEngine):
-    """向量回测：按策略编号分发到具体实现。"""
+    """向量回测：通过稳定 StrategySpec 分发到兼容 runner。"""
 
     mode_id = "vector"
 
     def run(self, job: BacktestJobConfig, *, progress: Callable[[str], None] | None = None) -> BacktestResult:
-        se = get_strategy_entry(job.strategy_key)
-        class_name = str(se.get("class", "")) if se else ""
-        if class_name == "StratifiedLongShortSharpeEqualWeightStrategy":
-            from ..vector_slss_runner import run_vector_slss_backtest  # noqa: PLC0415
-
-            return run_vector_slss_backtest(job, progress=progress)
-
-        if class_name == "QixingaozhaoEtfRotationStrategy":
-            from ..qixingaozhao_backtest_runner import run_qixingaozhao_backtest  # noqa: PLC0415
-
-            return run_qixingaozhao_backtest(job, progress=progress)
+        spec = get_strategy_spec(job.strategy_key)
+        if spec is not None and "vector" in spec.supported_modes:
+            runner = spec.load_vector_runner()
+            return runner(job, progress=progress)
 
         steps = (
-            "  1) 当前已实现的向量策略：StratifiedLongShortSharpeEqualWeightStrategy、QixingaozhaoEtfRotationStrategy；\n"
-            "  2) 其它策略请使用事件回测占位或接入 VeighNa CtaBacktester；\n"
-            "  3) 或在 vector_engine 中为对应 class 增加分支实现。\n"
+            "  1) 当前策略未在 StrategyRegistry 注册向量 runner；\n"
+            "  2) 请为 StrategySpec 声明 vector_runner；\n"
+            "  3) VectorEngine 不再增加按类名判断的分支。\n"
         )
         if progress is not None:
             progress("[向量回测] 当前策略无对应向量实现，返回占位说明。")

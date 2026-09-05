@@ -101,7 +101,7 @@ def _parse_strategy_classes(file_path: Path) -> list[str]:
 
 
 def build_registry_dict() -> dict[str, Any]:
-    """扫描 InnerStrategy/factors 与 strategies，生成注册表字典（不写盘）。"""
+    """扫描因子并从显式 StrategySpec 生成稳定策略注册表。"""
     factors: list[dict[str, str]] = []
     n = 0
 
@@ -134,34 +134,19 @@ def build_registry_dict() -> dict[str, Any]:
                 }
             )
 
-    strategies: list[dict[str, str]] = []
-    sn = 0
-    if _STRATEGIES_DIR.is_dir():
-        for py in sorted(_STRATEGIES_DIR.glob("*.py")):
-            if py.name.startswith("_") or py.name == "__init__.py":
-                continue
-            module_stem = py.stem
-            for class_name in _parse_strategy_classes(py):
-                sn += 1
-                sid = f"S{sn:06d}"
-                strategies.append(
-                    {
-                        "id": sid,
-                        "label": f"{sid} | {module_stem} | {class_name}",
-                        "module": module_stem,
-                        "class": class_name,
-                    }
-                )
+    from quant.strategy.registry import list_strategy_specs  # noqa: PLC0415
+
+    strategies = [spec.legacy_entry() for spec in list_strategy_specs()]
 
     return {
-        "version": 2,
+        "version": 3,
         "factors": factors,
         "strategies": strategies,
     }
 
 
 # 注册表结构升级时递增，旧文件会自动重写
-_MIN_REGISTRY_VERSION = 2
+_MIN_REGISTRY_VERSION = 3
 
 
 def ensure_inner_registry_file() -> Path:

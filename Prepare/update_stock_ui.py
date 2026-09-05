@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtCore import QFile, QIODevice, Qt
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget
 
@@ -19,9 +19,14 @@ _APP_DIR = Path(__file__).resolve().parent.parent
 
 def load_update_stock_window(parent: QWidget | None = None):
     """
-    加载 GUI/UpdateStock.ui，返回顶层窗口控件（一般为 QMainWindow）。
+    加载 GUI/UpdateStock.ui，返回顶层窗口控件（QMainWindow）。
 
-    parent: 作为 Qt 父对象时可随主窗口一并销毁；独立 None 则仅脚本持有引用时需自行保存防 GC。
+    重要：``QUiLoader.load`` 的 ``parent`` 参数会把加载出来的窗口「认作」主窗的
+    Qt 子对象，Windows 任务栏会把两个窗口合并成一个条目，主窗点最小化时子窗
+    也会跟着消失。生命周期引用已在 ``show_update_stock_window`` 里通过
+    ``setattr(owner, "_prepare_update_stock_win", w)`` 单独保留，因此这里把
+    ``parent`` 一律传 ``None``，让更新窗成为真正的独立顶层窗口。
+    加载完成后再用 ``Qt.Window`` 显式声明窗口类型并强制显示最小化/最大化/关闭按钮。
     """
     ui_path = _APP_DIR / "GUI" / "UpdateStock.ui"
     ui_file = QFile(str(ui_path))
@@ -29,12 +34,21 @@ def load_update_stock_window(parent: QWidget | None = None):
         raise RuntimeError(f"无法打开 UI 文件: {ui_path}")
 
     loader = QUiLoader()
-    # 传入 parent 便于生命周期随主窗口管理
-    window = loader.load(ui_file, parent)
+    # 关键：parent=None，让更新窗是独立顶层窗口，不再跟随主窗最小化。
+    window = loader.load(ui_file, None)
     ui_file.close()
 
     if window is None:
         raise RuntimeError("加载 UpdateStock.ui 失败，请确认文件格式正确。")
+
+    window.setWindowFlags(
+        Qt.Window
+        | Qt.WindowMinimizeButtonHint
+        | Qt.WindowMaximizeButtonHint
+        | Qt.WindowCloseButtonHint
+        | Qt.WindowSystemMenuHint
+    )
+    window.setAttribute(Qt.WA_DeleteOnClose, False)
 
     window.setWindowTitle("更新股票数据")
     return window

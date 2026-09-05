@@ -83,6 +83,7 @@ def dict_to_job(data: dict[str, Any]) -> BacktestJobConfig:
         factor_key=fk,
         strategy_key=sk,
         backtest_mode=mode,
+        strategy_params=dict(data.get("strategy_params") or {}),
     )
 
 
@@ -95,4 +96,5 @@ def job_to_dict(job: BacktestJobConfig) -> dict[str, Any]:
         "factor_key": job.factor_key,
         "strategy_key": job.strategy_key,
         "backtest_mode": job.backtest_mode,
+        "strategy_params": dict(job.strategy_params),
     }

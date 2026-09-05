@@ -161,7 +161,9 @@ DEFAULT_PARAMS: dict[str, Any] = {
     "use_short_momentum_filter": True,
     "short_lookback_days": 10,
     "short_momentum_threshold": 0.0,
-    "enable_profit_protection": True,
+    # 老的「最大回撤类」盈利保护 —— 已被下方 TP/SL 机制取代，默认关闭；
+    # 若坚持使用，可单独置 True，但仅在 TP/SL 未触发时才会触发卖出。
+    "enable_profit_protection": False,
     "profit_protection_lookback": 1,
     "profit_protection_threshold": 0.05,
     "enable_regime_switch": True,
@@ -170,6 +172,27 @@ DEFAULT_PARAMS: dict[str, Any] = {
     "enable_avoid_a_share": True,
     "min_score_threshold": 0,
     "max_score_threshold": 100.0,
+    # === 本地化交易价格参数（2026-08-30 重构，日线、无分钟行情）===
+    # 买入基准：取最近 buy_ma_window 个交易日的收盘价（默认 1 = 昨日收盘）。
+    "buy_ma_window": 1,
+    # 卖出基准均价窗口：取最近 sell_ma_window 个交易日的均价。
+    "sell_ma_window": 12,
+    # 止盈/止损倍数（基于 sell_ma_window 日均价）。
+    "sell_upper_ratio": 1.15,
+    "sell_lower_ratio": 0.9,
+    # 是否启用止盈/止损（可独立开关）。
+    "sell_upper_enabled": True,
+    "sell_lower_enabled": True,
+    # 同日 TP/SL 同时触发时的优先级：
+    #   lower_first - 保守：先打止损（更早离场）
+    #   upper_first - 激进：先打止盈
+    #   by_open     - 用今日 open 推断先后（开在 TP 上方→先打 SL；开在 SL 下方→先打 TP；中间→保守）
+    "sell_priority": "lower_first",
+    # 触发模式：
+    #   tp_sl  - 同时启用 TP/SL（默认）
+    #   tp_only- 只看 TP
+    #   sl_only- 只看 SL
+    "sell_trigger_mode": "tp_sl",
 }
 
 
@@ -319,13 +342,34 @@ class QixingaozhaoEtfRotationStrategy:
     def __init__(self, **param_overrides: Any) -> None:
         self.params: dict[str, Any] = dict(DEFAULT_PARAMS)
         self.params.update(param_overrides)
+        # 允许 runner 在加载完本地 datadir 后注入实际可用的标的池
+        # （七星高照 ETF 池是默认值；若 datadir 中根本没有 ETF，
+        # 则 runner 会把本地真实存在的 A-share 等可用代码注入到这里，
+        # 让策略能跑通——这是「股票信息用本地的数据输入」语义的实现）。
+        self.universe_override: list[str] | None = param_overrides.get("universe_override")
 
     # ------------------------------------------------------------------
     # Public interface used by the backtest runner
     # ------------------------------------------------------------------
 
+    def get_universe(self) -> list[str]:
+        """返回实际可用的全量标的池（universe_override 优先，否则用硬编码 ETF 池）。"""
+        if self.universe_override:
+            return list(self.universe_override)
+        return list(FULL_ETF_POOL)
+
     def get_active_pool(self, is_weak: bool) -> list[str]:
-        """Return the ETF pool appropriate for the current market regime."""
+        """Return the tradable pool appropriate for the current market regime.
+
+        优先用 ``universe_override``（本地 datadir 真实存在的代码）；
+        否则按原 ETF 池子规则：
+          - 走弱期：海外 + 商品
+          - 正常期：完整 ETF 池
+        """
+        if self.universe_override:
+            # 本地无 ETF 时，回退到 universe_override 全量；
+            # 走弱/正常期不再区分 ETF 类别（避免把仅有的几只 A-share 全过滤掉）。
+            return list(self.universe_override)
         if not self.params.get("enable_avoid_a_share", True):
             return list(FULL_ETF_POOL)
         if is_weak:
@@ -355,3 +399,120 @@ class QixingaozhaoEtfRotationStrategy:
             if DEFENSIVE_ETF in today_prices and today_prices[DEFENSIVE_ETF] > 0:
                 selected = [DEFENSIVE_ETF]
         return ranked, selected
+
+    # ------------------------------------------------------------------
+    # 本地化交易价格（无分钟行情：日线开盘→收盘中间过程用 OHLC 近似触发）
+    # ------------------------------------------------------------------
+
+    def compute_buy_level(
+        self,
+        etf: str,
+        closes: list[float],
+    ) -> float | None:
+        """
+        买入价位 = 最近 ``buy_ma_window`` 个交易日的均价（默认 1 = 昨日收盘）。
+
+        本地化语义：原始 QMT 在 13:10 按分钟 close 买入；本地无分钟数据，
+        退化为「按 buy_ma_window 日均价/收盘成交」。回测侧直接 fill 该价位。
+        """
+        win = max(1, int(self.params.get("buy_ma_window", 1)))
+        if not closes or len(closes) < win:
+            return None
+        base = float(closes[-win])
+        return base if base > 0 else None
+
+    def compute_sell_levels(
+        self,
+        etf: str,
+        closes: list[float],
+    ) -> tuple[float | None, float | None]:
+        """
+        (止盈位, 止损位) = (``sell_ma_window`` 日均价 × upper_ratio, × lower_ratio)。
+
+        本地化语义：原始 QMT 在 13:09 按分钟 close 卖出；本地无分钟数据，
+        退化为按 12 日均价 × 倍数（1.15 / 0.9）成交。两个倍数均为参数。
+        """
+        win = max(1, int(self.params.get("sell_ma_window", 12)))
+        if not closes or len(closes) < win:
+            return None, None
+        ma = sum(float(c) for c in closes[-win:]) / win
+        if ma <= 0:
+            return None, None
+        up_r = float(self.params.get("sell_upper_ratio", 1.15))
+        lo_r = float(self.params.get("sell_lower_ratio", 0.9))
+        return ma * up_r, ma * lo_r
+
+    def decide_sell_action(
+        self,
+        etf: str,
+        today_open: float | None,
+        today_high: float | None,
+        today_low: float | None,
+        today_close: float | None,
+        tp_level: float | None,
+        sl_level: float | None,
+        rebalance_sell: bool,
+    ) -> tuple[str | None, float | None]:
+        """
+        根据今日 OHLC 与 TP/SL 阈值，决定卖出行为与成交价。
+
+        触发判定：
+            - TP 触发：``today_high >= tp_level``（止盈上限被日 K 最高价触及）
+            - SL 触发：``today_low  <= sl_level``（止损下限被日 K 最低价触及）
+            - 同日同时触发：按 ``sell_priority`` 决定优先级
+            - 都未触发但需要 rebalance：用 ``today_close`` 卖出
+            - 都未触发且无需 rebalance：返回 (None, None)，runner 视为继续持有
+
+        返回：
+            ('tp', price) | ('sl', price) | ('rebalance', price) | (None, None)
+        """
+        p = self.params
+        upper_enabled = bool(p.get("sell_upper_enabled", True))
+        lower_enabled = bool(p.get("sell_lower_enabled", True))
+        trigger_mode = str(p.get("sell_trigger_mode", "tp_sl"))
+
+        if not upper_enabled:
+            tp_level = None
+        if not lower_enabled:
+            sl_level = None
+
+        tp_hit = (
+            tp_level is not None
+            and today_high is not None
+            and float(today_high) >= float(tp_level)
+        )
+        sl_hit = (
+            sl_level is not None
+            and today_low is not None
+            and float(today_low) <= float(sl_level)
+        )
+
+        consider_tp = trigger_mode in ("tp_sl", "tp_only") and tp_hit
+        consider_sl = trigger_mode in ("tp_sl", "sl_only") and sl_hit
+
+        if consider_tp and consider_sl:
+            priority = str(p.get("sell_priority", "lower_first"))
+            if priority == "upper_first":
+                return "tp", float(tp_level)
+            if priority == "by_open":
+                if today_open is not None:
+                    # 开在 TP 上方 → 必先跌穿 SL
+                    if float(today_open) > float(tp_level):
+                        return "sl", float(sl_level)
+                    # 开在 SL 下方 → 必先冲过 TP
+                    if float(today_open) < float(sl_level):
+                        return "tp", float(tp_level)
+                # open 在 [SL, TP] 区间内走保守路径
+                return "sl", float(sl_level)
+            # default: lower_first
+            return "sl", float(sl_level)
+
+        if consider_tp:
+            return "tp", float(tp_level)
+        if consider_sl:
+            return "sl", float(sl_level)
+
+        if rebalance_sell and today_close is not None and float(today_close) > 0:
+            return "rebalance", float(today_close)
+
+        return None, None
