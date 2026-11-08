@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>200</height>
+    <width>790</width>
+    <height>335</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -128,13 +128,65 @@
      <string>更新(独立行情)</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_local_source">
+    <property name="geometry"><rect><x>20</x><y>165</y><width>80</width><height>25</height></rect></property>
+    <property name="text"><string>数据源</string></property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_local_source">
+    <property name="geometry"><rect><x>105</x><y>163</y><width>220</width><height>30</height></rect></property>
+    <item><property name="text"><string>T 数据 (CSV)</string></property></item>
+    <item><property name="text"><string>QMT 本地 DAT</string></property></item>
+   </widget>
+   <widget class="QLabel" name="label_local_period">
+    <property name="geometry"><rect><x>340</x><y>165</y><width>60</width><height>25</height></rect></property>
+    <property name="text"><string>周期</string></property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_local_period">
+    <property name="geometry"><rect><x>395</x><y>163</y><width>150</width><height>30</height></rect></property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_local_import">
+    <property name="geometry"><rect><x>580</x><y>160</y><width>180</width><height>35</height></rect></property>
+    <property name="text"><string>导入到 LocalData</string></property>
+   </widget>
+   <widget class="QLabel" name="label_convert_start">
+    <property name="geometry"><rect><x>20</x><y>215</y><width>85</width><height>25</height></rect></property>
+    <property name="text"><string>转换起始</string></property>
+   </widget>
+   <widget class="QDateEdit" name="dateEdit_convert_start">
+    <property name="geometry"><rect><x>105</x><y>212</y><width>140</width><height>30</height></rect></property>
+    <property name="calendarPopup"><bool>true</bool></property>
+   </widget>
+   <widget class="QLabel" name="label_convert_end">
+    <property name="geometry"><rect><x>265</x><y>215</y><width>85</width><height>25</height></rect></property>
+    <property name="text"><string>转换终止</string></property>
+   </widget>
+   <widget class="QDateEdit" name="dateEdit_convert_end">
+    <property name="geometry"><rect><x>350</x><y>212</y><width>140</width><height>30</height></rect></property>
+    <property name="calendarPopup"><bool>true</bool></property>
+   </widget>
+   <widget class="QLabel" name="label_max_symbols">
+    <property name="geometry"><rect><x>510</x><y>215</y><width>90</width><height>25</height></rect></property>
+    <property name="text"><string>最大股票数</string></property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_max_symbols">
+    <property name="geometry"><rect><x>605</x><y>212</y><width>80</width><height>30</height></rect></property>
+    <property name="text"><string>0</string></property>
+   </widget>
+   <widget class="QLabel" name="label_import_progress">
+    <property name="geometry"><rect><x>20</x><y>255</y><width>520</width><height>25</height></rect></property>
+    <property name="text"><string>转换进度：空闲</string></property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_local_stock_info">
+    <property name="geometry"><rect><x>580</x><y>250</y><width>180</width><height>35</height></rect></property>
+    <property name="text"><string>本地股票信息</string></property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>500</width>
+    <width>790</width>
      <height>21</height>
     </rect>
    </property>

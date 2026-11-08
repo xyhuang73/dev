@@ -216,7 +216,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>max_symbols</string>
+     <string>T前N股票</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -241,6 +241,20 @@
       <height>31</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_market_data_source">
+    <property name="geometry">
+     <rect><x>1005</x><y>8</y><width>205</width><height>31</height></rect>
+    </property>
+    <item><property name="text"><string>LocalData-Q (DuckDB)</string></property></item>
+    <item><property name="text"><string>LocalData-T (DuckDB)</string></property></item>
+    <item><property name="text"><string>QMT 本地 DAT（对照）</string></property></item>
+   </widget>
+   <widget class="QLabel" name="label_market_data_source">
+    <property name="geometry">
+     <rect><x>1005</x><y>40</y><width>205</width><height>16</height></rect>
+    </property>
+    <property name="text"><string>S000001 行情源</string></property>
    </widget>
    <widget class="QWidget" name="widget_K_plot" native="true">
     <property name="geometry">

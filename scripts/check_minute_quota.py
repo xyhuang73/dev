@@ -17,7 +17,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 
 # ===== QMT 路径配置 =====
-QMT_INSTALL_PATH = r"D:\MiniQmt\国金证券QMT交易端"
+QMT_INSTALL_PATH = r"D:\MinQmt\国金证券QMT交易端"
 QMT_USERDATA_FOLDER = "userdata_mini"
 
 

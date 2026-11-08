@@ -23,6 +23,7 @@ def _defaults() -> dict[str, Any]:
         "factor_key": "F000001",
         "strategy_key": "S000001",
         "backtest_mode": "vector",
+        "market_data_source": "localdata_q",
     }
 
 
@@ -76,6 +77,9 @@ def dict_to_job(data: dict[str, Any]) -> BacktestJobConfig:
         fk = default_factor_id()
     if not sk:
         sk = default_strategy_id()
+    market_data_source = str(data.get("market_data_source") or "localdata_q").strip().lower()
+    if market_data_source not in {"localdata_q", "localdata_t", "qmt_dat"}:
+        market_data_source = "localdata_q"
     return BacktestJobConfig(
         initial_capital=float(data.get("initial_capital") or 0.0),
         start_date=str(data.get("start_date") or "20230101"),
@@ -83,6 +87,8 @@ def dict_to_job(data: dict[str, Any]) -> BacktestJobConfig:
         factor_key=fk,
         strategy_key=sk,
         backtest_mode=mode,
+        market_data_source=market_data_source,
+        dataset_id=f"market-{market_data_source}-1d",
         strategy_params=dict(data.get("strategy_params") or {}),
     )
 
@@ -96,5 +102,6 @@ def job_to_dict(job: BacktestJobConfig) -> dict[str, Any]:
         "factor_key": job.factor_key,
         "strategy_key": job.strategy_key,
         "backtest_mode": job.backtest_mode,
+        "market_data_source": job.market_data_source,
         "strategy_params": dict(job.strategy_params),
     }

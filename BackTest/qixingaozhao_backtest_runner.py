@@ -3,8 +3,8 @@
 七星高照 ETF 轮动超级增强 — 本地日线回测实现（2026-08-30 本地化重构版）。
 
 流程:
-    1) 通过 build_daily_market_panel_from_local_datadir 拉取 ETF 池 + 行情指数日线面板；
-       **强制本地 *.DAT 数据源**，不依赖 xtquant/xtdata（与本地策略接口一致）。
+    1) 按回测任务选择 LocalData-Q、LocalData-T 或 QMT 本地 DAT，读取 ETF 池和行情指数日线；
+       LocalData 来源严格隔离，不混源，也不自动回退。
     2) D 日收盘运行动量评分与行情判断，生成目标持仓；
     3) D+1 日开盘执行目标差异，按现金与 100 股交易单位更新账户；
     4) 对已有仓位使用 D 日前已知阈值和当日 OHLC 模拟 TP/SL；
@@ -60,32 +60,51 @@ def _fetch_panel(
     start_date: str,
     end_date: str,
     progress: Callable[[str], None] | None,
+    market_data_source: str = "qmt_dat",
 ) -> pd.DataFrame:
-    """
-    强制使用本地 *.DAT 行情面板（不依赖 xtquant/xtdata）。
+    """按指定行情源读取策略所需日线；LocalData-Q/T 查询彼此隔离。"""
+    _log(progress, f"  拉取 {market_data_source} 日线面板 ({len(codes)} 只, {start_date}~{end_date})...")
+    if market_data_source in {"localdata_q", "localdata_t"}:
+        from quant.data.localdata_market import load_daily_panel  # noqa: PLC0415
 
-    七星高照 ETF 策略的本地化约束：
-        - 只用日线，没有分钟数据；
-        - 与 ``BackTest/factor_local_datadir_panel`` 共用同一份 miniQMT userdata_mini/datadir；
-        - 不允许走 ``build_daily_market_panel`` 的 xtdata 分支。
-    """
-    from .factor_local_datadir_panel import build_daily_market_panel_from_local_datadir  # noqa: PLC0415
+        df = load_daily_panel(
+            codes, start_date, end_date,
+            source="Q" if market_data_source == "localdata_q" else "T",
+        )
+    elif market_data_source == "qmt_dat":
+        from .factor_local_datadir_panel import build_daily_market_panel_from_local_datadir  # noqa: PLC0415
 
-    _log(progress, f"  拉取本地日线面板 ({len(codes)} 只, {start_date}~{end_date})...")
-    df = build_daily_market_panel_from_local_datadir(
-        start_date, end_date, max_symbols=0, stock_list=codes,
-    )
+        df = build_daily_market_panel_from_local_datadir(
+            start_date, end_date, max_symbols=0, stock_list=codes,
+        )
+    else:
+        raise ValueError(f"不支持的行情源：{market_data_source}")
     _log(progress, f"  面板加载完成：{len(df)} 行 x {df['vt_symbol'].nunique()} 只")
     return df
 
 
-def _discover_available_codes(progress: Callable[[str], None] | None) -> list[str]:
+def _discover_available_codes(
+    progress: Callable[[str], None] | None,
+    market_data_source: str,
+    start_date: str,
+    end_date: str,
+) -> list[str]:
     """
-    枚举本地 datadir 下所有日线 ``*.DAT`` 文件名（**不解析内容**），返回 ``vt_symbol`` 列表。
+    按所选行情源枚举回测区间内有日线数据的代码。
 
-    用于策略「ETF 池命中为空」时的 A-share 兜底：保证回测能跑通。
-    只列文件名比解析全部 .DAT 快数十倍，仅在「ETF 池完全没命中」时调用一次。
+    LocalData 从 DuckDB 按来源和日期筛选；QMT DAT 沿用旧的文件名扫描。
     """
+    if market_data_source in {"localdata_q", "localdata_t"}:
+        from quant.data.localdata_market import list_daily_symbols  # noqa: PLC0415
+
+        source = "Q" if market_data_source == "localdata_q" else "T"
+        codes = list_daily_symbols(source, start_date, end_date)
+        _log(progress, f"  LocalData-{source} 在所选区间有日线数据的标的：{len(codes)} 只")
+        return codes
+
+    if market_data_source != "qmt_dat":
+        raise ValueError(f"不支持的行情源：{market_data_source}")
+
     from .factor_local_datadir_panel import _list_daily_dat_files  # noqa: PLC0415
 
     from qmt_service import get_local_datadir, load_config  # noqa: PLC0415
@@ -504,10 +523,20 @@ def _write_excel(
         'module': se.get('module', 'qixingaozhao_etf_rotation_strategy'),
         'class': se.get('class', 'QixingaozhaoEtfRotationStrategy'),
         'label': se.get('label', '')}])
+    market_source = getattr(job, 'market_data_source', 'qmt_dat')
+    if market_source in {'localdata_q', 'localdata_t'}:
+        from quant.data.localdata_market import DB_PATH  # noqa: PLC0415
+
+        market_location = str(DB_PATH)
+    else:
+        market_location = 'QMT userdata_mini/datadir'
     job_rows = pd.DataFrame([
         ('initial_capital', job.initial_capital), ('start_date', job.start_date),
         ('end_date', job.end_date), ('strategy_key', job.strategy_key),
-        ('backtest_mode', job.backtest_mode)], columns=['key', 'value'])
+        ('backtest_mode', job.backtest_mode),
+        ('market_data_source', market_source), ('market_data_location', market_location),
+        ('universe_size', getattr(job, 'universe_size', 39)),
+        ('dataset_id', getattr(job, 'dataset_id', 'local-current'))], columns=['key', 'value'])
     params_df = pd.DataFrame([{'key': k, 'value': _excel_scalar(v)} for k, v in sorted(params.items())])
     port_df = pd.DataFrame([{'key': k, 'value': _excel_scalar(v)} for k, v in sorted(portfolio.items())])
     dom_count = len(FULL_ETF_POOL) - len(OVERSEAS_ETF_POOL) - len(COMMODITY_ETF_POOL)
@@ -581,11 +610,12 @@ def _attach_benchmark_nav(
         benchmark_return = close.pct_change(fill_method=None).fillna(0.0)
         benchmark_name = "沪深300（000300.SH）"
     else:
-        pool = panel.loc[panel["vt_symbol"].astype(str).isin(set(universe)), ["datetime", "vt_symbol", "close"]]
-        pivot = pool.pivot_table(index="datetime", columns="vt_symbol", values="close", aggfunc="last").sort_index()
-        # 每只股票先计算自身日收益，再对当日有效股票等权；不把价格高低当权重。
-        benchmark_return = pivot.pct_change(fill_method=None).mean(axis=1, skipna=True).fillna(0.0)
-        benchmark_name = "本次股票池等权基准"
+        # 对照指数缺失时不拿 ETF 池替代；按用户指定，将对照收益清零并保持基准净值为 1。
+        days = pd.DatetimeIndex(
+            pd.to_datetime(equity_df["datetime"], errors="coerce").dropna().dt.normalize().unique()
+        ).sort_values()
+        benchmark_return = pd.Series(0.0, index=days, name="benchmark_return")
+        benchmark_name = "沪深300缺失（对照收益按0）"
     benchmark_nav = (1.0 + benchmark_return).cumprod().rename("benchmark_nav")
     out = equity_df.copy()
     out["__trade_day"] = pd.to_datetime(out["datetime"], errors="coerce").dt.normalize()
@@ -599,41 +629,95 @@ def _attach_benchmark_nav(
 def run_qixingaozhao_backtest(job, *, progress=None):
     from quant.strategy.adapters.s000001 import S000001OutputCollector  # noqa: PLC0415
 
-    _log(progress, '========== 七星高照ETF轮动 本地日线回测 开始 ==========')
+    market_data_source = str(getattr(job, "market_data_source", "qmt_dat") or "qmt_dat")
+    source_label = {
+        "localdata_q": "LocalData-Q",
+        "localdata_t": "LocalData-T",
+        "qmt_dat": "QMT 本地 DAT",
+    }.get(market_data_source)
+    if source_label is None:
+        return BacktestResult(False, f"不支持的行情源：{market_data_source}")
+    job.dataset_id = f"market-{market_data_source}-1d"
+    _log(progress, f'========== 七星高照ETF轮动 {source_label} 日线回测 开始 ==========')
 
     # 1) 先枚举 datadir 真实可加载的代码（含 A-share、ETF、指数等）
-    available_codes = _discover_available_codes(progress)
+    try:
+        available_codes = _discover_available_codes(
+            progress, market_data_source, job.start_date, job.end_date,
+        )
+    except Exception as exc:
+        msg = f"读取 {source_label} 可用标的失败：{exc}"
+        _log(progress, '[ERROR] ' + msg)
+        return BacktestResult(False, msg)
     if not available_codes:
-        return BacktestResult(False, '本地 datadir 中没有可加载的日线文件。')
+        msg = f"{source_label} 在 {job.start_date}~{job.end_date} 没有日线数据；未回退到其他来源。"
+        _log(progress, '[ERROR] ' + msg)
+        return BacktestResult(False, msg)
 
-    # 2) 决定 universe：优先使用本地硬编码 ETF 池与 4 个 regime 指数；
-    #    若完全没 ETF：
-    #      a) 优先用 Config/stock_pool.json 已过滤的 39 只（项目标准池）；
-    #      b) 若 stock_pool.json 不存在，再从 datadir 真实可加载代码中截前 N 个。
+    # 2) 股票池：LocalData-T 按代码升序取前 N；LocalData-Q/QMT DAT 沿用 ETF 策略池。
     regime_set = set(REGIME_INDEXES.values())
-    etf_like = [c for c in available_codes
-                if c in set(FULL_ETF_POOL) or c in regime_set]
-    tradeable_etf = [c for c in etf_like if c not in regime_set]
-    if tradeable_etf:
-        universe = tradeable_etf
-        _log(progress, '  本地可用 ETF 池: %d 只（命中硬编码池子）' % len(universe))
+    if market_data_source in {"localdata_q", "localdata_t"}:
+        missing_required = sorted((regime_set | {DEFENSIVE_ETF}) - set(available_codes))
+        if missing_required:
+            _log(
+                progress,
+                f"[提示] {source_label} 缺少对照行情：{', '.join(missing_required)}；"
+                "对应的指数/防御对照计算按 0 处理，继续使用已有数据回测。",
+            )
+    tradeable_etf: list[str] = []
+    if market_data_source == "localdata_t":
+        limit = max(0, int(getattr(job, "universe_size", 39) or 0))
+        universe = available_codes[:limit] if limit else list(available_codes)
+        _log(
+            progress,
+            f"  LocalData-T 股票池：按代码升序取前 {len(universe)} 只"
+            f"（设置上限={limit or '不限'}）：\n" + "、".join(universe),
+        )
     else:
-        cfg_pool = _load_stock_pool_from_config()
-        cfg_pool = [c for c in cfg_pool if c in available_codes]
-        if cfg_pool:
-            universe = cfg_pool
-            _log(progress, '  本地无 ETF，回退到 Config/stock_pool.json: %d 只' % len(universe))
+        etf_like = [c for c in available_codes
+                    if c in set(FULL_ETF_POOL) or c in regime_set]
+        tradeable_etf = [c for c in etf_like if c not in regime_set]
+        if tradeable_etf:
+            universe = tradeable_etf
+            _log(progress, '  %s 可用 ETF 池: %d 只（命中硬编码池子）' % (source_label, len(universe)))
+        elif market_data_source == "localdata_q":
+            universe = []
+            _log(
+                progress,
+                f"[提示] {source_label} 在所选区间没有 S000001 ETF 候选；"
+                "策略候选计算按 0 处理，回测按空仓继续。",
+            )
         else:
-            # 兜底中的兜底：从 available_codes 截前 50 只，避免回测 5 分钟
-            universe = [c for c in available_codes if c not in regime_set][:50]
-            _log(progress, '  本地无 ETF 也无 stock_pool.json，截前 50 只 A-share: %d 只' % len(universe))
-    if not universe:
-        return BacktestResult(False, '本地 datadir 中没有任何可用标的，回测无法进行。')
+            cfg_pool = _load_stock_pool_from_config()
+            cfg_pool = [c for c in cfg_pool if c in available_codes]
+            if cfg_pool:
+                universe = cfg_pool
+                _log(progress, '  本地无 ETF，回退到 Config/stock_pool.json: %d 只' % len(universe))
+            else:
+                # 兜底中的兜底：从 available_codes 截前 50 只，避免回测 5 分钟
+                universe = [c for c in available_codes if c not in regime_set][:50]
+                _log(progress, '  本地无 ETF 也无 stock_pool.json，截前 50 只 A-share: %d 只' % len(universe))
 
     # 3) 加载所需的日线面板（含 ETF / 指数 / 兜底股票）
-    load_codes = sorted(set(universe) | regime_set)
+    if market_data_source == "qmt_dat":
+        load_codes = sorted(set(universe) | regime_set | {DEFENSIVE_ETF})
+    elif market_data_source == "localdata_t" and not universe:
+        load_codes = list(available_codes)
+    else:
+        # 即使策略 ETF 一个也没有，也载入所选来源已有标的来构造交易日历；
+        # universe 仍为空，因此这些非候选标的不会被策略交易。
+        load_codes = sorted(set(universe) | (set(available_codes) if not universe else set(regime_set) | {DEFENSIVE_ETF}))
     try:
-        df = _fetch_panel(load_codes, job.start_date, job.end_date, progress)
+        if market_data_source == "localdata_q":
+            missing_candidates = sorted(set(FULL_ETF_POOL) - set(available_codes))
+            if missing_candidates:
+                missing_list = "、".join(missing_candidates)
+                _log(
+                    progress,
+                    f"[提示] {source_label} 缺少 ETF 候选 {len(missing_candidates)} 只：\n"
+                    f"{missing_list}\n缺少标的的候选评分按 0 处理。",
+                )
+        df = _fetch_panel(load_codes, job.start_date, job.end_date, progress, market_data_source)
     except Exception as exc:
         msg = '本地行情面板拉取失败: %s' % exc
         _log(progress, '[ERROR] ' + msg)
@@ -683,14 +767,26 @@ def run_qixingaozhao_backtest(job, *, progress=None):
     turnover_ratio = portfolio['turnover_ratio']
     ret_str = ('%.2f%%' % (ret * 100)) if math.isfinite(ret) else 'N/A'
     wr_str = ('%.1f%%' % (win_rate * 100)) if math.isfinite(win_rate) else 'N/A'
+    if market_data_source in {'localdata_q', 'localdata_t'}:
+        from quant.data.localdata_market import DB_PATH  # noqa: PLC0415
+
+        market_location = str(DB_PATH)
+    else:
+        market_location = 'QMT userdata_mini/datadir'
     text_lines = [
-        '七星高照 ETF 轮动超级增强 - 本地日线回测报告',
+        '七星高照 ETF 轮动超级增强 - ' + source_label + ' 日线回测报告',
+        '行情来源: ' + source_label,
+        '数据集: ' + str(job.dataset_id),
+        '数据位置: ' + market_location,
         '回测区间: %s ~ %s' % (job.start_date, job.end_date),
         '初始资金: %.2f' % job.initial_capital,
         '动量回看: %d日  持仓数: %d只' % (p['lookback_days'], p['holdings_num']),
         '防御ETF: ' + DEFENSIVE_ETF,
         '本地可用池子: %d 只（%s）' % (
-            len(universe), 'ETF命中' if tradeable_etf else 'A-share兜底'),
+            len(universe), 'LocalData-T 前N股票' if market_data_source == 'localdata_t' else (
+                'ETF命中' if tradeable_etf else (
+                    '空仓（候选缺失）' if market_data_source == 'localdata_q' else 'A-share兜底'))),
+        *(['LocalData-T 股票池代码: ' + '、'.join(universe)] if market_data_source == 'localdata_t' else []),
         '成交时序: D 日收盘生成目标，D+1 日开盘执行（100 股/手，受现金约束）',
         '卖出价基准: %d日均价 × %.3f / %.3f（止盈/止损）' % (
             int(p.get('sell_ma_window', 12)),
@@ -728,7 +824,7 @@ def run_qixingaozhao_backtest(job, *, progress=None):
     except Exception as exc:
         _log(progress, '  [WARN] Excel 写入失败: ' + str(exc))
         excel_path = None
-    _log(progress, '========== 七星高照ETF轮动 本地日线回测 完成 ==========')
+    _log(progress, f'========== 七星高照ETF轮动 {source_label} 日线回测 完成 ==========')
     return BacktestResult(
         ok=True,
         message=text_summary,

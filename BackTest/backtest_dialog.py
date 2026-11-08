@@ -619,14 +619,57 @@ def _ensure_finance_plot_canvas(plot_host: QWidget, result_widget: ResultWidget 
     return canvas, ax
 
 
-def _load_local_symbol_bars(symbol: str, start_yyyymmdd: str, end_yyyymmdd: str) -> pd.DataFrame:
-    """从本地 datadir 读取单只股票日线（含 open/high/low/close/volume）。"""
-    bars = build_daily_market_panel_from_local_datadir(
-        start_yyyymmdd,
-        end_yyyymmdd,
-        max_symbols=1,
-        stock_list=[symbol],
-    )
+def _bound_market_data_source(sub: QWidget) -> str:
+    """读取当前绑定回测报告的数据源；旧报告视为 QMT DAT。"""
+    report_path = str(getattr(sub, "_latest_strategy_excel_path", "") or "")
+    if report_path and getattr(sub, "_market_data_source_report_path", None) == report_path:
+        return str(getattr(sub, "_bound_market_data_source", "qmt_dat"))
+    source = "qmt_dat"
+    if report_path and Path(report_path).is_file():
+        try:
+            task = pd.read_excel(report_path, sheet_name="回测任务")
+            if {"key", "value"}.issubset(task.columns):
+                rows = task.loc[task["key"].astype(str) == "market_data_source", "value"]
+                if not rows.empty:
+                    candidate = str(rows.iloc[0]).strip().lower()
+                    if candidate in {"localdata_q", "localdata_t", "qmt_dat"}:
+                        source = candidate
+        except Exception:  # noqa: BLE001 - legacy report/chart must remain usable
+            pass
+    else:
+        root = _ui_search_root(sub)
+        combo = root.findChild(QComboBox, "comboBox_market_data_source")
+        if combo is not None and combo.currentData() in {"localdata_q", "localdata_t", "qmt_dat"}:
+            source = str(combo.currentData())
+    if report_path:
+        setattr(sub, "_market_data_source_report_path", report_path)
+        setattr(sub, "_bound_market_data_source", source)
+    return source
+
+
+def _load_local_symbol_bars(
+    symbol: str,
+    start_yyyymmdd: str,
+    end_yyyymmdd: str,
+    market_data_source: str = "qmt_dat",
+) -> pd.DataFrame:
+    """按明确来源读取单只标的日线，不在 QMT DAT 与 LocalData 之间自动回退。"""
+    if market_data_source in {"localdata_q", "localdata_t"}:
+        from quant.data.localdata_market import load_daily_panel  # noqa: PLC0415
+
+        bars = load_daily_panel(
+            [symbol], start_yyyymmdd, end_yyyymmdd,
+            source="Q" if market_data_source == "localdata_q" else "T",
+        )
+    elif market_data_source == "qmt_dat":
+        bars = build_daily_market_panel_from_local_datadir(
+            start_yyyymmdd,
+            end_yyyymmdd,
+            max_symbols=1,
+            stock_list=[symbol],
+        )
+    else:
+        raise ValueError(f"不支持的行情源：{market_data_source}")
     out = bars.loc[bars["vt_symbol"].astype(str) == str(symbol)].copy()
     out["datetime"] = pd.to_datetime(out["datetime"], errors="coerce")
     out = out.dropna(subset=["datetime"]).sort_values("datetime", kind="mergesort")
@@ -674,7 +717,9 @@ def _render_finance_plot(sub: QWidget, result_widget: ResultWidget | None) -> No
         benchmark = pd.DataFrame(columns=["datetime", "close"])
     else:
         try:
-            benchmark = _load_local_symbol_bars(BENCHMARK_SYMBOL, start_s, end_s)
+            benchmark = _load_local_symbol_bars(
+                BENCHMARK_SYMBOL, start_s, end_s, _bound_market_data_source(sub),
+            )
         except Exception as exc:  # noqa: BLE001
             benchmark = pd.DataFrame(columns=["datetime", "close"])
             _append_result_text(result_widget, f"基准行情加载失败（{BENCHMARK_SYMBOL}）：{type(exc).__name__}: {exc}")
@@ -704,7 +749,8 @@ def _render_finance_plot(sub: QWidget, result_widget: ResultWidget | None) -> No
         f"夏普 {sharpe}  |  胜率 {_format_percent(summary.win_rate)}  |  "
         f"交易成功率(回合/交易日) {_format_percent(summary.trade_success_rate)}"
     )
-    ax.set_title(f"组合净值对比｜基准：{benchmark_label}\n{metrics}", fontsize=9.5)
+    source_label = _market_source_label(_bound_market_data_source(sub))
+    ax.set_title(f"{source_label}｜组合净值对比｜基准：{benchmark_label}\n{metrics}", fontsize=9.5)
     ax.set_ylabel("净值", fontsize=9)
     ax.grid(alpha=0.22, linestyle="--")
     ax.legend(loc="best", ncol=3, fontsize=8)
@@ -716,10 +762,24 @@ def _format_percent(value: float | None) -> str:
     return "--" if value is None else f"{value * 100:.2f}%"
 
 
-def _k_plot_title(symbol: str, bars: pd.DataFrame, marks: pd.DataFrame) -> str:
+def _market_source_label(market_data_source: str) -> str:
+    return {
+        "localdata_q": "LocalData-Q",
+        "localdata_t": "LocalData-T",
+        "qmt_dat": "QMT DAT",
+    }.get(market_data_source, market_data_source)
+
+
+def _k_plot_title(
+    symbol: str,
+    bars: pd.DataFrame,
+    marks: pd.DataFrame,
+    market_data_source: str = "qmt_dat",
+) -> str:
     summary = calculate_symbol_performance(bars, marks)
+    source_label = _market_source_label(market_data_source)
     if summary.trade_days == 0:
-        return f"{symbol} 日K线（本地数据）"
+        return f"{symbol} 日K线（{source_label}）"
     sharpe = "--" if summary.sharpe_ratio is None else f"{summary.sharpe_ratio:.2f}"
     metrics = (
         f"单股收益 {_format_percent(summary.total_return)}  |  "
@@ -728,7 +788,7 @@ def _k_plot_title(symbol: str, bars: pd.DataFrame, marks: pd.DataFrame) -> str:
         f"夏普 {sharpe}  |  胜率 {_format_percent(summary.win_rate)}  |  "
         f"交易成功率(回合/交易日) {_format_percent(summary.trade_success_rate)}"
     )
-    return f"{symbol} 日K线（本地数据）\n{metrics}"
+    return f"{symbol} 日K线（{source_label}）\n{metrics}"
 
 
 def _load_trade_markers_from_report(report_path: str | None, symbol: str) -> pd.DataFrame:
@@ -775,7 +835,8 @@ def _render_k_plot(sub: QWidget, result_widget: ResultWidget | None) -> None:
         if timer is not None and timer.isActive():
             timer.stop()
     try:
-        bars = _load_local_symbol_bars(sym, start_s, end_s)
+        market_data_source = _bound_market_data_source(sub)
+        bars = _load_local_symbol_bars(sym, start_s, end_s, market_data_source)
     except Exception as exc:  # noqa: BLE001
         ax.clear()
         volume_ax.clear()
@@ -875,7 +936,7 @@ def _render_k_plot(sub: QWidget, result_widget: ResultWidget | None) -> None:
             ax.scatter(ms["datetime"], ms["price"], marker="v", s=40, color="#f97316", label="卖出", zorder=5)
         if (not mb.empty) or (not ms.empty):
             ax.legend(loc="best")
-    ax.set_title(_k_plot_title(sym, bars, marks), fontsize=10)
+    ax.set_title(_k_plot_title(sym, bars, marks, market_data_source), fontsize=10)
     ax.set_ylabel("Price")
     ax.grid(alpha=0.2, linestyle="--")
     ax.tick_params(axis="x", which="both", labelbottom=False)
@@ -906,12 +967,29 @@ def _set_combo_current_by_data(cb: QComboBox, key: str) -> None:
             return
 
 
+_MARKET_SOURCE_OPTIONS = (
+    ("LocalData-Q (DuckDB)", "localdata_q"),
+    ("LocalData-T (DuckDB)", "localdata_t"),
+    ("QMT 本地 DAT（对照）", "qmt_dat"),
+)
+
+
+def _setup_market_source_combo(root: QWidget) -> None:
+    combo = root.findChild(QComboBox, "comboBox_market_data_source")
+    if combo is None:
+        return
+    combo.clear()
+    for label, key in _MARKET_SOURCE_OPTIONS:
+        combo.addItem(label, key)
+
+
 def _populate_combos(sub: QWidget) -> None:
     """扫描 InnerStrategy 填充因子、策略；回测方式固定为向量/事件两种。"""
     root = _ui_search_root(sub)
     cf = root.findChild(QComboBox, "comboBox_factor")
     cs = root.findChild(QComboBox, "comboBox_strategy")
     cm = root.findChild(QComboBox, "comboBox_backtest_mode")
+    _setup_market_source_combo(root)
     if cf is not None:
         cf.clear()
         for key, label in list_factor_entries():
@@ -957,6 +1035,9 @@ def apply_backtest_config_to_ui(sub: QWidget) -> None:
         _set_combo_current_by_data(cs, job.strategy_key)
     if cm is not None and cm.count():
         _set_combo_current_by_data(cm, job.backtest_mode)
+    source_combo = root.findChild(QComboBox, "comboBox_market_data_source")
+    if source_combo is not None:
+        _set_combo_current_by_data(source_combo, job.market_data_source)
 
     sp = root.findChild(QSpinBox, "spinBox_factor_front_n")
     if sp is not None:
@@ -995,6 +1076,14 @@ def read_ui_to_job(sub: QWidget):
     fk = cf.currentData() if cf is not None and cf.currentIndex() >= 0 else default_factor_id()
     sk = cs.currentData() if cs is not None and cs.currentIndex() >= 0 else default_strategy_id()
     mode = cm.currentData() if cm is not None and cm.currentIndex() >= 0 else "vector"
+    source_combo = root.findChild(QComboBox, "comboBox_market_data_source")
+    market_data_source = (
+        str(source_combo.currentData() or "localdata_q")
+        if source_combo is not None and source_combo.currentIndex() >= 0
+        else "localdata_q"
+    )
+    sp_max = root.findChild(QSpinBox, "spinBox_max_symbols")
+    universe_size = max(0, int(sp_max.value())) if sp_max is not None else 39
     if mode not in ("vector", "event"):
         mode = "vector"
 
@@ -1011,6 +1100,9 @@ def read_ui_to_job(sub: QWidget):
         factor_key=str(fk),
         strategy_key=str(sk),
         backtest_mode=mode,  # type: ignore[arg-type]
+        market_data_source=market_data_source,
+        universe_size=universe_size,
+        dataset_id=f"market-{market_data_source}-1d",
         strategy_params=strategy_params,
     )
 
@@ -1046,6 +1138,7 @@ def refresh_backtest_panel(sub: QWidget) -> None:
         root.findChild(QComboBox, "comboBox_factor"),
         root.findChild(QComboBox, "comboBox_strategy"),
         root.findChild(QComboBox, "comboBox_backtest_mode"),
+        root.findChild(QComboBox, "comboBox_market_data_source"),
         root.findChild(QDateEdit, "dateEdit_start_date"),
         root.findChild(QDateEdit, "dateEdit_end_date"),
         root.findChild(QSpinBox, "spinBox_factor_front_n"),
@@ -1087,6 +1180,7 @@ def wire_backtest_dialog(sub: QWidget, _main_window: QWidget) -> None:
     cf = root.findChild(QComboBox, "comboBox_factor")
     cs = root.findChild(QComboBox, "comboBox_strategy")
     cm = root.findChild(QComboBox, "comboBox_backtest_mode")
+    market_source_combo = root.findChild(QComboBox, "comboBox_market_data_source")
 
     def _on_field_changed() -> None:
         # 任意参数变更即落盘，便于下次启动恢复
@@ -1111,6 +1205,8 @@ def wire_backtest_dialog(sub: QWidget, _main_window: QWidget) -> None:
         cs.currentIndexChanged.connect(lambda *_: _on_strategy_or_mode_changed())
     if cm is not None:
         cm.currentIndexChanged.connect(lambda *_: _on_strategy_or_mode_changed())
+    if market_source_combo is not None:
+        market_source_combo.currentIndexChanged.connect(lambda *_: _on_field_changed())
     combo_stock = root.findChild(QComboBox, "comboBox_stock_list")
     if combo_stock is not None:
         combo_stock.currentIndexChanged.connect(lambda *_: _render_k_plot(sub, result_widget))
@@ -1176,6 +1272,39 @@ def wire_backtest_dialog(sub: QWidget, _main_window: QWidget) -> None:
                 setattr(sub, "_performance_report_path", None)
                 _render_finance_plot(sub, result_widget)
                 _render_k_plot(sub, result_widget)
+            elif result.ok and job.strategy_key == "S000001" and job.market_data_source in {
+                "localdata_q", "localdata_t",
+            } and excel_path:
+                # 本次 LocalData 回测可能因无可交易 ETF 而零交易；绑定本次结果，
+                # 清掉旧报告股票列表/图表，避免继续把旧 QMT DAT 图误认为本次结果。
+                report_path = Path(excel_path)
+                if report_path.is_file():
+                    _remember_bound_report(sub, report_path)
+                    setattr(sub, "_performance_report_path", None)
+                    combo_stock = root.findChild(QComboBox, "comboBox_stock_list")
+                    if combo_stock is not None:
+                        combo_stock.blockSignals(True)
+                        combo_stock.clear()
+                        combo_stock.blockSignals(False)
+                    _render_finance_plot(sub, result_widget)
+                    host = root.findChild(QWidget, "widget_K_plot")
+                    if host is not None:
+                        ax = getattr(host, "_k_plot_ax", None)
+                        volume_ax = getattr(host, "_k_plot_volume_ax", None)
+                        canvas = getattr(host, "_k_plot_canvas", None)
+                        if ax is not None:
+                            ax.clear()
+                            ax.set_title(
+                                f"{_market_source_label(job.market_data_source)}｜本次回测无可展示的交易标的",
+                                fontsize=10,
+                            )
+                            ax.set_axis_off()
+                        if volume_ax is not None:
+                            volume_ax.clear()
+                            volume_ax.set_axis_off()
+                        if canvas is not None:
+                            canvas.draw_idle()
+                    _append_result_text(result_widget, "本次 LocalData 回测没有可展示的个股交易，图表已切换到本次结果。")
             else:
                 _append_result_text(
                     result_widget,

@@ -26,7 +26,7 @@ CONFIG_PATH = _ROOT / "Config" / "qmt.json"
 def _defaults() -> dict[str, Any]:
     """Config 缺省键值。"""
     return {
-        "qmt_install_path": r"D:\MiniQmt\国金证券QMT交易端",
+        "qmt_install_path": r"D:\MinQmt\国金证券QMT交易端",
         "userdata_folder_name": "userdata_mini",
         "local_datadir_subpath": "datadir",
         "kline_period_dir_name": "86400",
@@ -74,7 +74,19 @@ def get_userdata_mini_dir(cfg: dict[str, Any] | None = None) -> Path:
 
 
 def _local_datadir(cfg: dict[str, Any]) -> Path:
-    return _userdata_dir(cfg) / (cfg.get("local_datadir_subpath") or "datadir")
+    subpath = cfg.get("local_datadir_subpath") or "datadir"
+    userdata_datadir = _userdata_dir(cfg) / subpath
+    install_datadir = Path(cfg["qmt_install_path"]) / subpath
+
+    # 国金标准 QMT 的“行情补充/模型研究”写入安装目录 datadir；
+    # miniQMT/xtdata 常见目录则是 userdata_mini/datadir。优先选择实际含日线 DAT 的目录。
+    period = str(cfg.get("kline_period_dir_name") or "86400")
+    for candidate in (userdata_datadir, install_datadir):
+        if candidate.is_dir() and any(candidate.glob(f"**/{period}/*.DAT")):
+            return candidate
+
+    # 两边目前都没有目标周期文件时保留传统 miniQMT 默认，便于提示具体缺失目录。
+    return userdata_datadir
 
 
 def get_local_datadir() -> Path:
@@ -95,6 +107,10 @@ def _inject_xtquant_path(cfg: dict[str, Any]) -> None:
         candidates = [install / explicit]
     else:
         candidates = [
+            install / "bin.x64" / "Lib" / "site-packages",  # 国金客户端自带 Python 3.6/xtquant 布局
+            install / "bin.x64" / "python312" / "Lib" / "site-packages",  # 国金 QMT Python 3.12
+            install / "bin.x64" / "python311" / "Lib" / "site-packages",
+            install / "bin.x64" / "python310" / "Lib" / "site-packages",
             install / "python" / "Lib" / "site-packages",  # 国金/华鑫等常见布局
             install / "Lib" / "site-packages",
             install / "site-packages",

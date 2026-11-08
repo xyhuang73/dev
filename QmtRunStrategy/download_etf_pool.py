@@ -48,7 +48,7 @@ SHOW_DOWNLOAD_ITEM_LOG = False    # 是否逐条打印 [OK]/[FAIL]（开进度�
 
 # ==================== 本地数据目录（国金 QMT 实测） ====================
 # 模型研究 / download_history_data 实际写入安装目录下 datadir，不是 userdata_mini
-QMT_INSTALL_ROOT = r'D:\MiniQmt\国金证券QMT交易端'
+QMT_INSTALL_ROOT = r'D:\MinQmt\国金证券QMT交易端'
 DOWNLOAD_DATADIR = ''             # 空 = QMT_INSTALL_ROOT + '/datadir'
 MINIQMT_DATADIR = ''              # 空 = QMT_INSTALL_ROOT + '/userdata_mini/datadir'
 USE_FILESYSTEM_PROBE = True       # True: 优先用磁盘 .DAT 检测（推荐）

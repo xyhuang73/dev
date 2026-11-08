@@ -6,7 +6,6 @@
 """
 from __future__ import annotations
 
-import socket
 import subprocess
 import sys
 import threading
@@ -21,19 +20,6 @@ from qmt_service import ensure_xtquant_path
 _DOWNLOAD_TIMEOUT_SEC = 30
 
 
-def _is_qmt_client_accessible() -> bool:
-    """检测 QMT 客户端的行情服务端口是否可连接（58610）。"""
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(2)
-    try:
-        result = s.connect_ex(("127.0.0.1", 58610))
-        return result == 0
-    except Exception:
-        return False
-    finally:
-        s.close()
-
-
 def _check_qmt_readiness() -> tuple[bool, str]:
     """
     检查 QMT 客户端是否就绪。
@@ -41,18 +27,8 @@ def _check_qmt_readiness() -> tuple[bool, str]:
     Returns:
         (is_ready, message): is_ready=True 表示可继续；False 时 message 含原因说明。
     """
-    if not _is_qmt_client_accessible():
-        return False, (
-            "无法连接 miniQMT 行情服务（端口 58610 无响应）。\n"
-            "请确认：\n"
-            "  1. miniQMT / 国金 QMT 客户端已启动\n"
-            "  2. 客户端已登录（账号状态正常）\n"
-            "  3. 客户端已开启「行情服务」或「本地数据」权限\n"
-            "  4. 客户端与本脚本在同一台电脑上运行\n"
-            "\n"
-            "提示：可在任务管理器中搜索 XtMiniQmt、miniqmt、QMT 等进程确认客户端状态。"
-        )
-
+    # 不用固定端口预判：不同 QMT 版本可动态分配 XTQuant 服务端口。
+    # 后续 xtdata.get_stock_list_in_sector 会通过 xtquant 自带发现/连接逻辑校验服务。
     kw: dict = {}
     if hasattr(subprocess, "CREATE_NO_WINDOW"):
         kw["creationflags"] = subprocess.CREATE_NO_WINDOW
@@ -177,7 +153,7 @@ class QmtHistoryDownloadWorker(QObject):
         except Exception as exc:  # noqa: BLE001
             self.finished.emit(
                 False,
-                f"获取板块「{sector}」标的失败: {exc}\n"
+                f"连接 QMT 行情接口或获取板块「{sector}」标的失败: {exc}\n"
                 "提示：如果 QMT 客户端刚启动，请等待 5~10 秒后再试（行情服务需要初始化时间）。",
             )
             return

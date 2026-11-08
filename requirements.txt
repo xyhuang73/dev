@@ -5,6 +5,7 @@ openpyxl>=3.1.0
 numpy>=1.24.0,<2
 # 锁在 3 以下可避免与 streamlit 等「要求 pandas<3」的包在同一解释器里冲突（仍建议每项目独立 .venv）
 pandas>=2.0.0,<3
+duckdb>=1.2.0
 polars>=0.20.0
 scipy>=1.10.0
 tqdm>=4.65.0

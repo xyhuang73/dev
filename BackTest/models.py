@@ -29,6 +29,8 @@ class BacktestJobConfig:
     run_id: str | None = None
     dataset_id: str = "local-current"
     universe_id: str = "configured-current"
+    market_data_source: str = "localdata_q"
+    universe_size: int = 39
     random_seed: int = 0
 
     def describe(self) -> str:
